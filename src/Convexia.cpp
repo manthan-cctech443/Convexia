@@ -40,19 +40,19 @@ void Convexia::setupUi()
 
     QGridLayout* layout = new QGridLayout(this);
 
-    layout->addWidget(loadFile, 0, 0, 1, 2);
-    layout->addWidget(progressbar, 0, 2, 1, 2);
-    layout->addWidget(exportFile, 0, 4, 1, 2);
-    layout->addWidget(openglWidgetInput, 2, 0, 1, 3);
-    layout->addWidget(openglWidgetOutput, 2, 3, 1, 3);
-    layout->addWidget(customStatusBar, 4, 0, 1, 6);
+    layout->addWidget(loadFile, 0, 0);
+    layout->addWidget(progressbar, 0, 1, 1, 2);
+    layout->addWidget(exportFile, 0, 3);
+    layout->addWidget(openglWidgetInput, 1,0,1,2);
+    layout->addWidget(openglWidgetOutput, 1,2,1,2);
+    layout->addWidget(customStatusBar, 2,0,1,4);
 
     QWidget* centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
     centralWidget->setLayout(layout);
     customStatusBar->setFixedHeight(30);
 
-    customStatusBar->showMessage("Welcome to VISUALIZER APP ! Load your file.");
+    customStatusBar->showMessage("Welcome to CONVEXIA APP ! Load your file.");
 }
 
 OpenGlWidget::Data Convexia::convertTrianglulationToGraphicsObject(const Triangulation& inTriangulation)
