@@ -2,8 +2,6 @@
 #include<fstream>
 #include<iomanip>
 
-using namespace IO;
-
 std::string STLWriter::formulateText(Triangulation triangulation, Point point)
 {
     double x = triangulation.UniqueNumbers[point.X()];

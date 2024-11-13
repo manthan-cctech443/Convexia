@@ -6,7 +6,7 @@
 
 class OpenGlWidget;
 
-class GraphicsSynchronizer: public QObject
+class GraphicsSynchronizer : public QObject
 {
     Q_OBJECT
 

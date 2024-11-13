@@ -22,8 +22,10 @@
     <ClInclude Include="headers\Point.h" />
     <ClInclude Include="headers\Triangle.h" />
     <ClInclude Include="headers\Triangulation.h" />
+    <ClInclude Include="Line.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="src\Point.cpp" />
     <ClCompile Include="src\Triangle.cpp" />
     <ClCompile Include="src\Triangulation.cpp" />

@@ -16,7 +16,7 @@ class Convexia : public QMainWindow
     Q_OBJECT
 
 public:
-    Convexia(QWidget *parent = nullptr);
+    Convexia(QWidget* parent = nullptr);
     ~Convexia();
 
 private slots:
@@ -47,13 +47,8 @@ private:
 
     QVector<GLfloat> vertices;
 
-
-
     // translation data
     QString inputFilePath;
     QString tempFilePath;
     QString outputFilePath;
-
-    /*void loadSTLFile(const QString&, Triangulation& triangulation, OpenGlWidget*);
-    void loadOBJFile(const QString&, Triangulation& triangulation, OpenGlWidget*);*/
 };

@@ -2,14 +2,12 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
-#include "Point.h"
 
 vector<Point> uniqueVerticesList;
 vector<Point> uniqueNormalsList;
 map<Point, int> VerticeMap;
 map<Point, int> NormalMap;
 
-using namespace IO;
 
 void ObjWriter::Write(const string& filename, const Triangulation& triangulation)
 {

@@ -26,6 +26,20 @@ int Point::Z()
 	return mZ;
 }
 
+vector<double> Geometry::Point::getPoint(Triangulation& triangulation)
+{
+	Triangulation tri;
+	point.push_back(triangulation.UniqueNumbers[p.X()]);
+	point.push_back(triangulation.UniqueNumbers[p.Y()]);
+	point.push_back(triangulation.UniqueNumbers[p.Z()]);
+	return point;
+}
+
+void Geometry::Point::pointDistance(vector<double> point1, vector<double> Point2)
+{
+	return 
+}
+
 bool Point::operator<(const Point& other) const
 {
 	if (mX != other.mX) {

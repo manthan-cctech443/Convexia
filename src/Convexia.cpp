@@ -9,7 +9,6 @@
 #include <QGridLayout>
 #include <QStatusBar>
 
-using namespace IO;
 using namespace Geometry;
 
 Convexia::Convexia(QWidget* parent) : QMainWindow(parent)
@@ -107,11 +106,13 @@ Triangulation Convexia::readFile(const QString& filePath)
     {
         STLReader reader;
         reader.read(filePath.toStdString(), triangulation);
+        progressbar->setRange(0, triangulation.Triangles.size());
     }
     else if (filePath.endsWith(".obj", Qt::CaseInsensitive))
     {
         OBJReader reader;
         reader.read(filePath.toStdString(), triangulation);
+        progressbar->setRange(0, triangulation.Triangles.size());
     }
 
     return triangulation;

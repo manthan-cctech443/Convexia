@@ -1,5 +1,6 @@
 #include "QuickHull.h"
 
+
 Algorithm::QuickHull::QuickHull()
 {
 }

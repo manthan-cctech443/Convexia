@@ -3,13 +3,9 @@
 #include <fstream>
 #include <iostream>
 #include "OBJReader.h"
-#include "Triangulation.h"
-#include "Point.h"
-#include "Triangle.h"
 #include <vector>
 #include <sstream>
 #include <cassert>
-#include <string>
 #include <map>
 
 #define TOLERANCE 0.0000001
@@ -24,6 +20,7 @@ bool OBJReader::operator()(double a, double b) const
 {
     return fabs(a - b) > TOLERANCE ? a < b : false;
 }
+
 void OBJReader::read(const std::string& fileName, Triangulation& triangulation)
 {
     std::map<double, int, OBJReader> uniqueMap;

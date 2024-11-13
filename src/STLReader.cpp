@@ -1,13 +1,9 @@
 #include "STLReader.h"
-#include "Point.h"
-#include "Reader.h"
 #include<fstream>
 #include<sstream>
 #include<vector>
 #include<map>
 #include<unordered_map>
-
-using namespace IO;
 
 #define TOLERANCE 0.0000001
 
