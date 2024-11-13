@@ -4,14 +4,16 @@
 #include <iostream>
 #include "Point.h"
 
-std::vector<Point> uniqueVerticesList;
-std::vector<Point> uniqueNormalsList;
-std::map<Point, int> VerticeMap;
-std::map<Point, int> NormalMap;
+vector<Point> uniqueVerticesList;
+vector<Point> uniqueNormalsList;
+map<Point, int> VerticeMap;
+map<Point, int> NormalMap;
 
-void ObjWriter::Write(const std::string& filename, const Triangulation& triangulation)
+using namespace IO;
+
+void ObjWriter::Write(const string& filename, const Triangulation& triangulation)
 {
-    std::ofstream outfile(filename);
+    ofstream outfile(filename);
     for (auto triangle : triangulation.Triangles)
     {
         findAndAddPoint(triangle.P1(), uniqueVerticesList, VerticeMap);
@@ -24,23 +26,23 @@ void ObjWriter::Write(const std::string& filename, const Triangulation& triangul
 
         for (Point pt : uniqueVerticesList)
         {
-            outfile << std::fixed << std::setprecision(6)
+            outfile << fixed << setprecision(6)
                 << formulateVertex(triangulation, pt);
         }
         for (Point normals : uniqueNormalsList)
         {
-            outfile << std::fixed << std::setprecision(6)
+            outfile << fixed << setprecision(6)
                 << formulateVertexNormal(triangulation, normals);
         }
         for (Triangle tri : triangulation.Triangles)
         {
-            outfile << formulateFace(tri) << std::endl;
+            outfile << formulateFace(tri) << endl;
         }
     }
 }
 
 
-void ObjWriter::findAndAddPoint(Point point, std::vector<Point>& pointList, std::map<Point, int>& uniqueValueMap)
+void ObjWriter::findAndAddPoint(Point point, vector<Point>& pointList, map<Point, int>& uniqueValueMap)
 {
     auto pair = uniqueValueMap.find(point);
     if (pair == uniqueValueMap.end())
@@ -50,29 +52,29 @@ void ObjWriter::findAndAddPoint(Point point, std::vector<Point>& pointList, std:
     }
 }
 
-std::string ObjWriter::formulateVertex(Triangulation triangulation, Point point)
+string ObjWriter::formulateVertex(Triangulation triangulation, Point point)
 {
     double x = triangulation.UniqueNumbers[point.X()];
     double y = triangulation.UniqueNumbers[point.Y()];
     double z = triangulation.UniqueNumbers[point.Z()];
 
-    return "v " + std::to_string(x) + " " + std::to_string(y) + " " + std::to_string(z) + "\n";
+    return "v " + to_string(x) + " " + to_string(y) + " " + to_string(z) + "\n";
 }
 
-std::string ObjWriter::formulateVertexNormal(Triangulation triangulation, Point point)
+string ObjWriter::formulateVertexNormal(Triangulation triangulation, Point point)
 {
     double x = triangulation.UniqueNumbers[point.X()];
     double y = triangulation.UniqueNumbers[point.Y()];
     double z = triangulation.UniqueNumbers[point.Z()];
 
-    return "vn " + std::to_string(x) + " " + std::to_string(y) + " " + std::to_string(z) + "\n";
+    return "vn " + to_string(x) + " " + to_string(y) + " " + to_string(z) + "\n";
 }
 
-std::string ObjWriter::formulateFace(Triangle triangle)
+string ObjWriter::formulateFace(Triangle triangle)
 {
     // v vt vn
-    std::string new1 = std::to_string(VerticeMap[triangle.P1()] + 1) + "//" + std::to_string(NormalMap[triangle.Normal()] + 1)
-        + " " + std::to_string(VerticeMap[triangle.P2()] + 1) + "//" + std::to_string(NormalMap[triangle.Normal()] + 1)
-        + " " + std::to_string(VerticeMap[triangle.P3()] + 1) + "//" + std::to_string(NormalMap[triangle.Normal()] + 1);
+    string new1 = to_string(VerticeMap[triangle.P1()] + 1) + "//" + to_string(NormalMap[triangle.Normal()] + 1)
+        + " " + to_string(VerticeMap[triangle.P2()] + 1) + "//" + to_string(NormalMap[triangle.Normal()] + 1)
+        + " " + to_string(VerticeMap[triangle.P3()] + 1) + "//" + to_string(NormalMap[triangle.Normal()] + 1);
     return "f " + new1;
 }

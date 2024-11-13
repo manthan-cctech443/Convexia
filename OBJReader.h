@@ -4,6 +4,8 @@
 #include "Triangulation.h"
 #include "Reader.h"
 
+using namespace IO;
+
 class OBJReader : public Reader
 {
 public:

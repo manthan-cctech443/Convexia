@@ -1,11 +1,15 @@
 #include "Convexia.h"
 
 #include "Triangulation.h"
-
+#include "STLReader.h"
+#include "STLWriter.h"
+#include "OBJReader.h"
+#include "OBJWriter.h"
 #include <QFileDialog>
 #include <QGridLayout>
 #include <QStatusBar>
 
+using namespace IO;
 using namespace Geometry;
 
 Convexia::Convexia(QWidget* parent) : QMainWindow(parent)
@@ -22,10 +26,24 @@ Convexia::~Convexia()
 
 void Convexia::onLoadClick()
 {
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Files (*.stl *.obj)"));
+
+    if (!fileName.isEmpty())
+    {
+        inputFilePath = fileName;
+        triangulation = readFile(inputFilePath);
+        OpenGlWidget::Data data = convertTrianglulationToGraphicsObject(triangulation);
+        openglWidgetInput->setData(data);
+    }
 }
 
 void Convexia::onExportClick()
 {
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", inputFilePath.endsWith(".stl", Qt::CaseInsensitive) ? tr("files (*.obj)") : tr("files (*.stl)"));
+    if (!fileName.isEmpty())
+    {
+        writeFile(fileName, outputTriangulation);
+    }
 }
 
 void Convexia::setupUi()
@@ -80,4 +98,35 @@ OpenGlWidget::Data Convexia::convertTrianglulationToGraphicsObject(const Triangu
         count++;
     }
     return data;
+}
+
+Triangulation Convexia::readFile(const QString& filePath)
+{
+    Triangulation triangulation;
+    if (filePath.endsWith(".stl", Qt::CaseInsensitive))
+    {
+        STLReader reader;
+        reader.read(filePath.toStdString(), triangulation);
+    }
+    else if (filePath.endsWith(".obj", Qt::CaseInsensitive))
+    {
+        OBJReader reader;
+        reader.read(filePath.toStdString(), triangulation);
+    }
+
+    return triangulation;
+}
+
+void Convexia::writeFile(const QString& filePath, const Triangulation& triangulation)
+{
+    if (filePath.endsWith(".stl", Qt::CaseInsensitive))
+    {
+        STLWriter writer;
+        writer.Write(filePath.toStdString(), triangulation);
+    }
+    else if (filePath.endsWith(".obj", Qt::CaseInsensitive))
+    {
+        ObjWriter writer;
+        writer.Write(filePath.toStdString(), triangulation);
+    }
 }

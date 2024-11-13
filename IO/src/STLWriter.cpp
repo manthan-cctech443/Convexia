@@ -2,7 +2,7 @@
 #include<fstream>
 #include<iomanip>
 
-using namespace std;
+using namespace IO;
 
 std::string STLWriter::formulateText(Triangulation triangulation, Point point)
 {

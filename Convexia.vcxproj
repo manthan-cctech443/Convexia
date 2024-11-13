@@ -105,6 +105,7 @@
     <ClCompile Include="src\Convexia.cpp" />
     <ClCompile Include="src\GraphicsSynchronizer.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\OBJReader.cpp" />
     <ClCompile Include="src\OpenglWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +113,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="headers\OpenglWidget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="headers\OBJReader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

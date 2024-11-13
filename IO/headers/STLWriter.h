@@ -5,11 +5,15 @@
 #include "Triangle.h"
 #include "Triangulation.h"
 
-class STLWriter : public Writer
-{
-public:
-    void Write(const std::string& filename, const Triangulation& triangulation);
+using namespace std;
 
-private:
-    std::string formulateText(Triangulation triangulation, Point point);
-};
+namespace IO {
+    class STLWriter : public Writer
+    {
+    public:
+        void Write(const string& filename, const Triangulation& triangulation);
+
+    private:
+        string formulateText(Triangulation triangulation, Point point);
+    };
+}

@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\OBJReader.h" />
     <ClInclude Include="headers\OBJWriter.h" />
     <ClInclude Include="headers\Reader.h" />
     <ClInclude Include="headers\STLReader.h" />
@@ -27,7 +26,6 @@
     <ClInclude Include="headers\Writer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\OBJReader.cpp" />
     <ClCompile Include="src\OBJWriter.cpp" />
     <ClCompile Include="src\Reader.cpp" />
     <ClCompile Include="src\STLReader.cpp" />
