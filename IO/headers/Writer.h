@@ -4,6 +4,7 @@
 #include"Triangulation.h"
 
 using namespace Geometry;
+using namespace std;
 
 namespace IO {
 	class Writer
