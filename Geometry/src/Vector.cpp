@@ -1,16 +1,15 @@
 #include "Vector.h"
 using namespace Geometry;
 
-Geometry::GVector::GVector(double x, double y, double z)
-	:mX(x),mY(y),mZ(z)
+Geometry::GVector::GVector(Dot a)
+{
+}
+
+Geometry::GVector::GVector(Dot a, Dot b)
+	:x(b.X() - a.X()),y(b.Y() - a.Y()),z(b.Z() - a.Z())
 {
 }
 
 Geometry::GVector::~GVector()
 {
-}
-
-GVector Geometry::GVector::operator-(GVector& other)
-{
-	return GVector(mX-other.mX,mY-other.mY,mZ-other.mZ);
 }

@@ -1,17 +1,16 @@
 #pragma once
 #include<vector>
+#include "Dot.h"
 using namespace std;
 
 namespace Geometry {
 	class GVector
 	{
 	public:
-		double mX;
-		double mY;
-		double mZ;
+		double x, y, z;
 
-		GVector(double x, double y, double z);
+		GVector(Dot a);
+		GVector(Dot a, Dot b);
 		~GVector();
-		GVector operator-(GVector& other);
 	};
 }

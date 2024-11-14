@@ -19,16 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\Plane.h" />
+    <ClInclude Include="headers\Dot.h" />
+    <ClInclude Include="headers\Operations.h" />
+    <ClInclude Include="headers\Face.h" />
     <ClInclude Include="headers\Point.h" />
     <ClInclude Include="headers\Triangle.h" />
     <ClInclude Include="headers\Triangulation.h" />
     <ClInclude Include="headers\Vector.h" />
-    <ClInclude Include="Operations.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Operations.cpp" />
-    <ClCompile Include="src\Plane.cpp" />
+    <ClCompile Include="src\Dot.cpp" />
+    <ClCompile Include="src\Operations.cpp" />
+    <ClCompile Include="src\Face.cpp" />
     <ClCompile Include="src\Point.cpp" />
     <ClCompile Include="src\Triangle.cpp" />
     <ClCompile Include="src\Triangulation.cpp" />
