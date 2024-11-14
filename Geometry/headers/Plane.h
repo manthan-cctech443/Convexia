@@ -10,8 +10,5 @@ namespace Geometry {
 	public:
 		Plane(GVector A, GVector B, GVector C);
 		~Plane();
-
-		GVector getNormal();
-		double distanceToPlane(GVector pointP);
 	};
 }

@@ -19,15 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\Line.h" />
     <ClInclude Include="headers\Plane.h" />
     <ClInclude Include="headers\Point.h" />
     <ClInclude Include="headers\Triangle.h" />
     <ClInclude Include="headers\Triangulation.h" />
     <ClInclude Include="headers\Vector.h" />
+    <ClInclude Include="Operations.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Line.cpp" />
+    <ClCompile Include="Operations.cpp" />
     <ClCompile Include="src\Plane.cpp" />
     <ClCompile Include="src\Point.cpp" />
     <ClCompile Include="src\Triangle.cpp" />

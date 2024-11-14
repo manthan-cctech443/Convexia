@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\Line.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="headers\Plane.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -33,11 +30,11 @@
     <ClInclude Include="headers\Vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Operations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Line.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Point.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,6 +48,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Plane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Operations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

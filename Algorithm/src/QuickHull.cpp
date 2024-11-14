@@ -1,10 +1,5 @@
 #include "QuickHull.h"
 
-
-Algorithm::QuickHull::QuickHull()
-{
-}
-
-Algorithm::QuickHull::~QuickHull()
+void Algorithm::quickHull(set<vector<double>> points)
 {
 }

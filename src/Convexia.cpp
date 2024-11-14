@@ -5,11 +5,12 @@
 #include "STLWriter.h"
 #include "OBJReader.h"
 #include "OBJWriter.h"
+#include <iostream>
 #include <QFileDialog>
 #include <QGridLayout>
 #include <QStatusBar>
-
 using namespace Geometry;
+using namespace std;
 
 Convexia::Convexia(QWidget* parent) : QMainWindow(parent)
 {
@@ -31,6 +32,7 @@ void Convexia::onLoadClick()
     {
         inputFilePath = fileName;
         triangulation = readFile(inputFilePath);
+        set<vector<double>> uniquePoints = getUniquePoints(triangulation);  //store all unique points
         OpenGlWidget::Data data = convertTrianglulationToGraphicsObject(triangulation);
         openglWidgetInput->setData(data);
     }
@@ -130,4 +132,16 @@ void Convexia::writeFile(const QString& filePath, const Triangulation& triangula
         ObjWriter writer;
         writer.Write(filePath.toStdString(), triangulation);
     }
+}
+
+set<vector<double>> Convexia::getUniquePoints(Triangulation& inputTriangulation)
+{
+    set<vector<double>> uniquePoints;
+    for (Triangle tri : inputTriangulation.Triangles) {
+        for (Point p : tri.Points()) {
+            uniquePoints.insert({ inputTriangulation.UniqueNumbers[p.X()],inputTriangulation.UniqueNumbers[p.Y()] ,inputTriangulation.UniqueNumbers[p.Z()] });
+        }
+    }
+
+    return uniquePoints;
 }

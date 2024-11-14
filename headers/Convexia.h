@@ -4,6 +4,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTextEdit>
 #include <QProgressBar>
+#include<set>
 
 #include "Triangulation.h"
 #include "OpenGlWidget.h"
@@ -28,6 +29,7 @@ private:
     OpenGlWidget::Data convertTrianglulationToGraphicsObject(const Triangulation& inTriangulation);
     Triangulation readFile(const QString& filePath);
     void writeFile(const QString& filePath, const Triangulation& triangulation);
+    set<vector<double>> getUniquePoints(Triangulation& triangulation);
 
 private:
     Triangulation triangulation;

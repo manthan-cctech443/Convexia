@@ -1,12 +1,9 @@
 #pragma once
+#include <set>
+#include<vector>
+using namespace std;
 
 namespace Algorithm
 {
-
-	class QuickHull
-	{
-	public:
-		QuickHull();
-		~QuickHull();
-	};
+	void quickHull(set<vector<double>> points);
 }
