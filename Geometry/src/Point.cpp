@@ -1,5 +1,5 @@
 #include "Point.h"
-
+#include <cmath>
 using namespace Geometry;
 
 Point::Point(int x, int y, int z)
@@ -18,7 +18,7 @@ int Point::X()
 
 int Point::Y()
 {
-	return mY;
+	return mY; //(x2-x1)
 }
 
 int Point::Z()
@@ -26,18 +26,13 @@ int Point::Z()
 	return mZ;
 }
 
-vector<double> Geometry::Point::getPoint(Triangulation& triangulation)
+double Geometry::Point::pointDistance(vector<double> point1, vector<double> Point2)
 {
-	Triangulation tri;
-	point.push_back(triangulation.UniqueNumbers[p.X()]);
-	point.push_back(triangulation.UniqueNumbers[p.Y()]);
-	point.push_back(triangulation.UniqueNumbers[p.Z()]);
-	return point;
-}
+	double dx = point1[0] - Point2[0];
+	double dy = point1[1] - Point2[1];
+	double dz = point1[2] - Point2[2];
 
-void Geometry::Point::pointDistance(vector<double> point1, vector<double> Point2)
-{
-	return 
+	return sqrt(dx * dx + dy * dy + dz * dz);
 }
 
 bool Point::operator<(const Point& other) const
