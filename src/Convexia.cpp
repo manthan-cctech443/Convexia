@@ -22,6 +22,7 @@ Convexia::Convexia(QWidget* parent) : QMainWindow(parent)
 
     connect(loadFile, &QPushButton::clicked, this, &Convexia::onLoadClick);
     connect(exportFile, &QPushButton::clicked, this, &Convexia::onExportClick);
+    connect(convert, &QPushButton::clicked, this, &Convexia::onConvertClick);
 }
 
 Convexia::~Convexia()
@@ -38,22 +39,36 @@ void Convexia::onLoadClick()
         triangulation = readFile(inputFilePath);
         OpenGlWidget::Data data = convertTrianglulationToGraphicsObject(triangulation);
         openglWidgetInput->setData(data);
-
         set<Dot> PointCloudSet;
-        for (int i = 0; i < data.vertices.size() ; i=i+3) {
-            Dot d(static_cast<double>(data.vertices[i]), static_cast<double>(data.vertices[i+1]), static_cast<double>(data.vertices[i+2]));
-            
+        for (int i = 0; i < data.vertices.size(); i = i + 3) {
+            Dot d(static_cast<double>(data.vertices[i]), static_cast<double>(data.vertices[i + 1]), static_cast<double>(data.vertices[i + 2]));
+
             PointCloudSet.insert(d);
         }
         vector<Dot>PointCloud(PointCloudSet.begin(), PointCloudSet.end());
-        vector<Face> output=quickHull(PointCloud);
-        Triangulation outputTriangulation;
-        /*for (Face f : output) {
-            GVector normal = getNormal();
-        }*/
+        vector<Face> output = quickHull(PointCloud);
+        OpenGlWidget::Data data1;
+        for (Face f : output) {
+            data1.vertices.push_back(static_cast<GLfloat>(f.D1().X()));
+            data1.vertices.push_back(static_cast<GLfloat>(f.D1().Y()));
+            data1.vertices.push_back(static_cast<GLfloat>(f.D1().Z()));
+            data1.vertices.push_back(static_cast<GLfloat>(f.D2().X()));
+            data1.vertices.push_back(static_cast<GLfloat>(f.D2().Y()));
+            data1.vertices.push_back(static_cast<GLfloat>(f.D2().Z()));
+            data1.vertices.push_back(static_cast<GLfloat>(f.D3().X()));
+            data1.vertices.push_back(static_cast<GLfloat>(f.D3().Y()));
+            data1.vertices.push_back(static_cast<GLfloat>(f.D3().Z()));
+
+            GVector nor = getNormal(f.D1(), f.D2(), f.D3());
+
+            for (int i = 0;i < 3;i++) {
+                data1.normals.push_back(static_cast<GLfloat>(nor.x));
+                data1.normals.push_back(static_cast<GLfloat>(nor.y));
+                data1.normals.push_back(static_cast<GLfloat>(nor.z));
+            }
+        }
+        openglWidgetOutput->setData(data1);
     }
-
-
 
 }
 
@@ -66,6 +81,12 @@ void Convexia::onExportClick()
     }
 }
 
+void Convexia::onConvertClick()
+{
+    
+
+}
+
 void Convexia::setupUi()
 {
     loadFile = new QPushButton("Load File", this);
@@ -74,6 +95,7 @@ void Convexia::setupUi()
     openglWidgetOutput = new OpenGlWidget(this);
     progressbar = new QProgressBar(this);
     customStatusBar = new QStatusBar(this);
+    convert = new QPushButton("Convert", this);
     graphicsSynchronizer = new GraphicsSynchronizer(openglWidgetInput, openglWidgetOutput);
 
     QGridLayout* layout = new QGridLayout(this);
@@ -83,7 +105,8 @@ void Convexia::setupUi()
     layout->addWidget(exportFile, 0, 3);
     layout->addWidget(openglWidgetInput, 1,0,1,2);
     layout->addWidget(openglWidgetOutput, 1,2,1,2);
-    layout->addWidget(customStatusBar, 2,0,1,4);
+    layout->addWidget(customStatusBar, 2,0,1,3);
+    layout->addWidget(convert, 2, 3);
 
     QWidget* centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
@@ -120,6 +143,7 @@ OpenGlWidget::Data Convexia::convertTrianglulationToGraphicsObject(const Triangu
     return data;
 }
 
+
 Triangulation Convexia::readFile(const QString& filePath)
 {
     Triangulation triangulation;
@@ -151,16 +175,4 @@ void Convexia::writeFile(const QString& filePath, const Triangulation& triangula
         ObjWriter writer;
         writer.Write(filePath.toStdString(), triangulation);
     }
-}
-
-set<vector<double>> Convexia::getUniquePoints(Triangulation& inputTriangulation)
-{
-    set<vector<double>> uniquePoints;
-    for (Triangle tri : inputTriangulation.Triangles) {
-        for (Point p : tri.Points()) {
-            uniquePoints.insert({ inputTriangulation.UniqueNumbers[p.X()],inputTriangulation.UniqueNumbers[p.Y()] ,inputTriangulation.UniqueNumbers[p.Z()] });
-        }
-    }
-
-    return uniquePoints;
 }

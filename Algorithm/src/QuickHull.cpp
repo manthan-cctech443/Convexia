@@ -2,10 +2,13 @@
 #include "Operations.h"
 #include"Vector.h"
 using namespace Geometry;
+using namespace Algorithm;
+
 namespace Algorithm {
 	vector<Face> partOfHull; 
 }
 using namespace Algorithm;
+
 vector<Face> Algorithm::quickHull(vector<Dot> points)
 {
 	vector<Face> partOfHull;
@@ -101,13 +104,17 @@ vector<Face> Algorithm::quickHull(vector<Dot> points)
 	partOfHull.push_back(f0);
 	partOfHull.push_back(f2);
 	partOfHull.push_back(f3);
+	points.erase(remove(points.begin(), points.end(), p1), points.end());
+	points.erase(remove(points.begin(), points.end(), p2), points.end());
+	points.erase(remove(points.begin(), points.end(), p3), points.end());
+	points.erase(remove(points.begin(), points.end(), p4), points.end());
 
-	quickHullRecursive(points);
+	quickHullRecursive(points,partOfHull);
 
 	return partOfHull;
 }
 
-void Algorithm::generateFace(Face f, Dot pointP)
+void Algorithm::generateFace(Face f, Dot pointP, vector<Dot> points)
 {
 	Face f1(f.D1(), f.D2(), pointP);
 	Face f2(f.D2(), f.D3(), pointP);
@@ -117,6 +124,8 @@ void Algorithm::generateFace(Face f, Dot pointP)
 	partOfHull.push_back(f2);
 	partOfHull.push_back(f3);
 
+
+	points.erase(remove(points.begin(), points.end(), pointP), points.end());
 	partOfHull.erase(remove(partOfHull.begin(), partOfHull.end(), f), partOfHull.end());
 }
 
@@ -134,13 +143,13 @@ Dot Algorithm::farthestPointFromPlane(Face f, vector<Dot> points)
 	return p;
 }
 
-void Algorithm::quickHullRecursive(vector<Dot> points)
+void Algorithm::quickHullRecursive(vector<Dot> points, vector<Face>& partOfHull)
 {
-	for (Face f : partOfHull) {
-		for (Dot p : points) {
-			while (distanceToPlane(f, p) != 0) {
-				Dot d = farthestPointFromPlane(f, points);
-				generateFace(f, d);
+	for (int i = 0;i<partOfHull.size();i++) {
+		for (int j = 0;j < points.size();j++) {
+			while (distanceToPlane(partOfHull[i], points[j]) != 0) {
+				Dot d = farthestPointFromPlane(partOfHull[i], points);
+				generateFace(partOfHull[i], d,points);
 			}
 		}
 	}

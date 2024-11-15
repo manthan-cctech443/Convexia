@@ -10,7 +10,6 @@ namespace Geometry {
 		Dot a, b;
 		double x, y, z;
 
-		GVector(Dot a);
 		GVector(Dot a, Dot b);
 		~GVector();
 	};

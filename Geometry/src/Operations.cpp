@@ -44,8 +44,9 @@ Geometry:: GVector Geometry::crossProduct(GVector vec, Dot pointP)
 	double Z = vec.x * pointP.Y() - vec.y * pointP.X();
 
 	Dot res(X, Y, Z);
+	Dot d(0.0, 0.0, 0.0);
 
-	return GVector(res);
+	return GVector(d, res);
 }
 
 GVector Geometry::crossProduct(GVector vec, GVector pointP)
@@ -55,8 +56,9 @@ GVector Geometry::crossProduct(GVector vec, GVector pointP)
 	double Z = vec.x * pointP.y - vec.y * pointP.x;
 
 	Dot res(X, Y, Z);
+	Dot d(0.0, 0.0, 0.0);
 
-	return GVector(res);
+	return GVector(d,res);
 }
 
 double Geometry::distanceToPlane(Face f, Dot pointP)

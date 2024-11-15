@@ -10,13 +10,13 @@ namespace Algorithm
 {
 	vector<Face> quickHull(vector<Dot> points);
 
-	void generateFace(Face f, Dot pointP);
+	void generateFace(Face f, Dot pointP, vector<Dot> points);
 
 	Dot farthestPointFromPlane(Face f, vector<Dot> points);
 
 	extern vector<Face> partOfHull;
 
-	void quickHullRecursive(vector<Dot> points);
+	void quickHullRecursive(vector<Dot> points, vector<Face>& partOfHull);
 
 	//set<vector<double>> outsideHull;
 }
