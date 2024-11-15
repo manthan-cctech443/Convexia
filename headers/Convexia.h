@@ -17,7 +17,6 @@ class Convexia : public QMainWindow
 public:
     Convexia(QWidget* parent = nullptr);
     ~Convexia();
-   
 
 private slots:
     void onLoadClick();

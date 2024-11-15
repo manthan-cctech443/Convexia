@@ -109,7 +109,7 @@ vector<Face> Algorithm::quickHull(vector<Dot> points)
 	points.erase(remove(points.begin(), points.end(), p3), points.end());
 	points.erase(remove(points.begin(), points.end(), p4), points.end());
 
-	quickHullRecursive(points,partOfHull);
+	//quickHullRecursive(points,partOfHull);
 
 	return partOfHull;
 }
@@ -143,14 +143,14 @@ Dot Algorithm::farthestPointFromPlane(Face f, vector<Dot> points)
 	return p;
 }
 
-void Algorithm::quickHullRecursive(vector<Dot> points, vector<Face>& partOfHull)
-{
-	for (int i = 0;i<partOfHull.size();i++) {
-		for (int j = 0;j < points.size();j++) {
-			while (distanceToPlane(partOfHull[i], points[j]) != 0) {
-				Dot d = farthestPointFromPlane(partOfHull[i], points);
-				generateFace(partOfHull[i], d,points);
-			}
-		}
-	}
-}
+//void Algorithm::quickHullRecursive(vector<Dot> points, vector<Face>& partOfHull)
+//{
+//	for (int i = 0;i<partOfHull.size();i++) {
+//		for (int j = 0;j < points.size();j++) {
+//			while (distanceToPlane(partOfHull[i], points[j]) != 0) {
+//				Dot d = farthestPointFromPlane(partOfHull[i], points);
+//				generateFace(partOfHull[i], d,points);
+//			}
+//		}
+//	}
+//}
