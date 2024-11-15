@@ -1,15 +1,18 @@
 #include "Convexia.h"
-
+#include "Dot.h"
 #include "Triangulation.h"
 #include "STLReader.h"
 #include "STLWriter.h"
 #include "OBJReader.h"
 #include "OBJWriter.h"
+#include "QuickHull.h"
 #include <iostream>
+#include <set>
 #include <QFileDialog>
 #include <QGridLayout>
 #include <QStatusBar>
 using namespace Geometry;
+using namespace Algorithm;
 using namespace std;
 
 Convexia::Convexia(QWidget* parent) : QMainWindow(parent)
@@ -35,7 +38,20 @@ void Convexia::onLoadClick()
         set<vector<double>> uniquePoints = getUniquePoints(triangulation);  //store all unique points
         OpenGlWidget::Data data = convertTrianglulationToGraphicsObject(triangulation);
         openglWidgetInput->setData(data);
+
+        set<Dot> PointCloudSet;
+        for (int i = 0; i < data.vertices.size() ; i=i+3) {
+            Dot d(static_cast<double>(data.vertices[i]), static_cast<double>(data.vertices[i+1]), static_cast<double>(data.vertices[i+2]));
+            
+            PointCloudSet.insert(d);
+        }
+        vector<Dot>PointCloud(PointCloudSet.begin(), PointCloudSet.end());
+        quickHull(PointCloud);
+        
     }
+
+
+
 }
 
 void Convexia::onExportClick()

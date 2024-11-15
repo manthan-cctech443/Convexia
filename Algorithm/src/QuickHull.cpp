@@ -5,6 +5,7 @@ using namespace Geometry;
 
 void Algorithm::quickHull(vector<Dot> points)
 {
+	/*vector<Face> partOfHul;*/
 	vector<Dot> extreme;
 	double minC = INT_MAX;
 	double maxC = INT_MIN;

@@ -14,7 +14,7 @@ namespace Algorithm
 
 	Dot farthestPointFromPlane(Face f, vector<Dot> points);
 
-	vector<Face> partOfHull;
+	static vector<Face> partOfHull;
 
 	//set<vector<double>> outsideHull;
 }
