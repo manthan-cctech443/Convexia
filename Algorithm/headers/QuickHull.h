@@ -14,7 +14,7 @@ namespace Algorithm
 
 	Dot farthestPointFromPlane(Face f, vector<Dot> points);
 
-	vector<Face> partOfHull;
+	extern vector<Face> partOfHull;
 
 	void quickHullRecursive(vector<Dot> points);
 

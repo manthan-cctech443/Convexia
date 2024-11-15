@@ -2,6 +2,9 @@
 #include "Operations.h"
 #include"Vector.h"
 using namespace Geometry;
+namespace Algorithm {
+	vector<Face> partOfHull; 
+}
 using namespace Algorithm;
 vector<Face> Algorithm::quickHull(vector<Dot> points)
 {
