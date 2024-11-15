@@ -1,11 +1,15 @@
 #include "QuickHull.h"
 #include "Operations.h"
 #include"Vector.h"
+
+#include <algorithm>
+
 using namespace Geometry;
 using namespace Algorithm;
 
 namespace Algorithm {
 	vector<Face> partOfHull; 
+	Dot centroid;
 }
 using namespace Algorithm;
 
@@ -96,7 +100,15 @@ vector<Face> Algorithm::quickHull(vector<Dot> points)
 
 	Face f1(p1, p2, p3);
 	partOfHull.push_back(f1);
-	Dot p4 = farthestPointFromPlane(f1,points);
+	Dot p4;
+	double tempMaxDistance = -1;
+	for (int i = 0;i < points.size();i++) {
+		if (abs(distanceToPlane(f1, points[i])) > tempMaxDistance) {
+			tempMaxDistance = distanceToPlane(f1, points[i]);
+			p4 = points[i];
+		}
+	}
+
 	Face f0(f1.D1(), f1.D2(), p4);
 	Face f2(f1.D2(), f1.D3(), p4);
 	Face f3(f1.D3(), f1.D1(), p4);
@@ -104,6 +116,8 @@ vector<Face> Algorithm::quickHull(vector<Dot> points)
 	partOfHull.push_back(f0);
 	partOfHull.push_back(f2);
 	partOfHull.push_back(f3);
+	Dot centroid(((p1.X() + p2.X() + p3.X() + p4.X()) / 4.0), ((p1.Y() + p2.Y() + p3.Y() + p4.Y()) / 4.0), ((p1.Z() + p2.Z() + p3.Z() + p4.Z()) / 4.0));
+
 	points.erase(remove(points.begin(), points.end(), p1), points.end());
 	points.erase(remove(points.begin(), points.end(), p2), points.end());
 	points.erase(remove(points.begin(), points.end(), p3), points.end());
@@ -124,12 +138,11 @@ void Algorithm::generateFace(Face f, Dot pointP, vector<Dot> points)
 	partOfHull.push_back(f2);
 	partOfHull.push_back(f3);
 
-
 	points.erase(remove(points.begin(), points.end(), pointP), points.end());
 	partOfHull.erase(remove(partOfHull.begin(), partOfHull.end(), f), partOfHull.end());
 }
 
-Dot Algorithm::farthestPointFromPlane(Face f, vector<Dot> points)
+Dot Algorithm::farthestPointFromPlanePositive(Face f, vector<Dot> points)
 {
 	Dot p;
 	double maxDistance = -1;
@@ -140,17 +153,39 @@ Dot Algorithm::farthestPointFromPlane(Face f, vector<Dot> points)
 		}
 	}
 
+	for (Dot i : points) {
+		if (p == i)	return p;
+	}
+	//return p;
+}
+
+Dot Algorithm::farthestPointFromPlaneNegative(Face f, vector<Dot> points)
+{
+	Dot p;
+	double maxDistance = 1;
+	for (int i = 0;i < points.size();i++) {
+		if (distanceToPlane(f, points[i]) < maxDistance) {
+			maxDistance = distanceToPlane(f, points[i]);
+			p = points[i];
+		}
+	}
+
 	return p;
 }
 
-//void Algorithm::quickHullRecursive(vector<Dot> points, vector<Face>& partOfHull)
-//{
-//	for (int i = 0;i<partOfHull.size();i++) {
-//		for (int j = 0;j < points.size();j++) {
-//			while (distanceToPlane(partOfHull[i], points[j]) != 0) {
-//				Dot d = farthestPointFromPlane(partOfHull[i], points);
-//				generateFace(partOfHull[i], d,points);
-//			}
-//		}
-//	}
-//}
+void Algorithm::quickHullRecursive(vector<Dot> points, vector<Face>& partOfHull)
+{
+	for (int i = 0;i<partOfHull.size();i++) {
+		int c = 1;
+		double d=distanceToPlane(partOfHull[i], centroid);
+		if (d > 0) {
+			Dot p=farthestPointFromPlaneNegative(partOfHull[i], points);
+			generateFace(partOfHull[i], p, points);
+			c = 1;
+		}
+		else {
+			Dot p = farthestPointFromPlaneNegative(partOfHull[i], points);
+			generateFace(partOfHull[i], p, points);
+		}
+	}
+}

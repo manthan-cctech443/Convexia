@@ -70,8 +70,7 @@ double Geometry::distanceToPlane(Face f, Dot pointP)
 
 	double distance = (normalDotf1P) / magnitude(normal);
 
-	if(distance>0)	return (normalDotf1P) / magnitude(normal);
-	return 0;			//visit again
+	return distance;
 }
 
 Geometry:: GVector Geometry::getNormal(Dot A, Dot B, Dot C)

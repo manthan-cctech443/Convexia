@@ -12,9 +12,11 @@ namespace Algorithm
 
 	void generateFace(Face f, Dot pointP, vector<Dot> points);
 
-	Dot farthestPointFromPlane(Face f, vector<Dot> points);
+	Dot farthestPointFromPlanePositive(Face f, vector<Dot> points);
+	Dot farthestPointFromPlaneNegative(Face f, vector<Dot> points);
 
 	extern vector<Face> partOfHull;
+	extern Dot centroid;
 
 	void quickHullRecursive(vector<Dot> points, vector<Face>& partOfHull);
 
