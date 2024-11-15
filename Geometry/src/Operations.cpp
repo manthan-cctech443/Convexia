@@ -13,7 +13,9 @@ double Geometry::pointDistance(Dot point1, Dot Point2)
 
 double Geometry::distanceVectorToPoint(GVector vec, Dot pointP)
 {
-	GVector vecXpointP = Geometry::crossProduct(vec,pointP);
+	Dot p1 = vec.a;
+	GVector p1pointP(p1,pointP);
+	GVector vecXpointP = Geometry::crossProduct(p1pointP,vec);
 	double magnitudeVecXP = Geometry::magnitude(vecXpointP);
 
 	double magnitudeVec = Geometry::magnitude(vec);

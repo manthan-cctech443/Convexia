@@ -7,6 +7,7 @@ namespace Geometry {
 	class GVector
 	{
 	public:
+		Dot a, b;
 		double x, y, z;
 
 		GVector(Dot a);

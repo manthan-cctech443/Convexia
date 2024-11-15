@@ -30,6 +30,13 @@ double Dot::Z()
 	return mZ;
 }
 
+bool Geometry::Dot::operator==(const Dot& other) const
+{
+	return this->mX == other.mX &&
+		this->mY == other.mY &&
+		this->mZ == other.mZ;
+}
+
 bool Dot::operator<(const Dot& other) const
 {
 	if (mX != other.mX) {

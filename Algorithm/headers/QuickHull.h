@@ -8,13 +8,15 @@ using namespace Geometry;
 
 namespace Algorithm
 {
-	void quickHull(vector<Dot> points);
+	vector<Face> quickHull(vector<Dot> points);
 
 	void generateFace(Face f, Dot pointP);
 
 	Dot farthestPointFromPlane(Face f, vector<Dot> points);
 
-	static vector<Face> partOfHull;
+	vector<Face> partOfHull;
+
+	void quickHullRecursive(vector<Dot> points);
 
 	//set<vector<double>> outsideHull;
 }

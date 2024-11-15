@@ -22,6 +22,7 @@ namespace Geometry
         Dot D2();
         Dot D3();
 
+        bool operator==(const Face& other)const;
         vector<Dot> Dots();
     };
 }

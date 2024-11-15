@@ -18,6 +18,8 @@ namespace Geometry
 		double Y();
 		double Z();
 
+		bool operator==(const Dot& other)const;
+
 		bool operator<(const Dot& other) const;
 	};
 }

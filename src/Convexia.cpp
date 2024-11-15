@@ -6,6 +6,7 @@
 #include "OBJReader.h"
 #include "OBJWriter.h"
 #include "QuickHull.h"
+#include "Operations.h"
 #include <iostream>
 #include <set>
 #include <QFileDialog>
@@ -35,7 +36,6 @@ void Convexia::onLoadClick()
     {
         inputFilePath = fileName;
         triangulation = readFile(inputFilePath);
-        set<vector<double>> uniquePoints = getUniquePoints(triangulation);  //store all unique points
         OpenGlWidget::Data data = convertTrianglulationToGraphicsObject(triangulation);
         openglWidgetInput->setData(data);
 
@@ -46,8 +46,11 @@ void Convexia::onLoadClick()
             PointCloudSet.insert(d);
         }
         vector<Dot>PointCloud(PointCloudSet.begin(), PointCloudSet.end());
-        quickHull(PointCloud);
-        
+        vector<Face> output=quickHull(PointCloud);
+        Triangulation outputTriangulation;
+        /*for (Face f : output) {
+            GVector normal = getNormal();
+        }*/
     }
 
 
