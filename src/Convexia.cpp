@@ -22,7 +22,6 @@ Convexia::Convexia(QWidget* parent) : QMainWindow(parent)
 
     connect(loadFile, &QPushButton::clicked, this, &Convexia::onLoadClick);
     connect(exportFile, &QPushButton::clicked, this, &Convexia::onExportClick);
-    connect(convert, &QPushButton::clicked, this, &Convexia::onConvertClick);
 }
 
 Convexia::~Convexia()
@@ -81,12 +80,6 @@ void Convexia::onExportClick()
     }
 }
 
-void Convexia::onConvertClick()
-{
-    
-
-}
-
 void Convexia::setupUi()
 {
     loadFile = new QPushButton("Load File", this);
@@ -95,7 +88,6 @@ void Convexia::setupUi()
     openglWidgetOutput = new OpenGlWidget(this);
     progressbar = new QProgressBar(this);
     customStatusBar = new QStatusBar(this);
-    convert = new QPushButton("Convert", this);
     graphicsSynchronizer = new GraphicsSynchronizer(openglWidgetInput, openglWidgetOutput);
 
     QGridLayout* layout = new QGridLayout(this);
@@ -105,8 +97,7 @@ void Convexia::setupUi()
     layout->addWidget(exportFile, 0, 3);
     layout->addWidget(openglWidgetInput, 1,0,1,2);
     layout->addWidget(openglWidgetOutput, 1,2,1,2);
-    layout->addWidget(customStatusBar, 2,0,1,3);
-    layout->addWidget(convert, 2, 3);
+    layout->addWidget(customStatusBar, 2,0);
 
     QWidget* centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);

@@ -21,7 +21,6 @@ public:
 private slots:
     void onLoadClick();
     void onExportClick();
-    void onConvertClick();
 
 
 private:
@@ -36,7 +35,6 @@ private:
 
     QPushButton* loadFile;
     QPushButton* exportFile;
-    QPushButton* convert;
 
     QStatusBar* customStatusBar;
 
