@@ -5,13 +5,21 @@
 #include<vector>
 using namespace std;
 
-namespace Geometry {
-	double pointDistance(Dot point1, Dot Point2);
-	double distanceVectorToPoint(GVector vec, Dot pointP);
-	double magnitude(GVector& other);
-	double dotProduct(GVector vector1, GVector vector2);
-	GVector crossProduct(GVector vec, Dot pointP);
-	GVector crossProduct(GVector vector1, GVector vector2);
-	GVector getNormal(Dot A, Dot B, Dot C);
-	double distanceToPlane(Face f,Dot pointP);
+namespace Geometry 
+{
+	class Operations 
+	{
+	public:
+		Operations();
+		~Operations();
+
+		static double pointDistance(Dot point1,  Dot point2);
+		static double distanceVectorToPoint(GVector vec,  Dot pointP);
+		static double magnitude( GVector other);
+		static double dotProduct(GVector vector1, GVector vector2);
+		static GVector crossProduct(GVector vec,  Dot pointP);
+		static GVector crossProduct(GVector vector1, GVector vector2);
+		static GVector getNormal(Dot a,  Dot b,  Dot c);
+		static double distancePointToPlane(Face f,  Dot pointP);
+	};
 }

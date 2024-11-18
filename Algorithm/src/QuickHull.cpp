@@ -154,10 +154,6 @@ tuple<int, Dot> Algorithm::farthestPointFromPlanePositive(Face f, vector<Dot> po
 			p = points[i];
 		}
 	}
-
-	/*for (Dot i : points) {
-		if (p == i)	return p;
-	}*/
 	if (maxDistance > 0) {
 		return { 1, p };
 	}
