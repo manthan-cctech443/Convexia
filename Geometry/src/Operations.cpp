@@ -21,7 +21,7 @@ double Operations::pointDistance(Dot point1, Dot point2)
 
 double Operations::distanceVectorToPoint(GVector vec, Dot pointP)
 {
-	Dot p1 = vec.a;
+	Dot p1 = vec.A;
 	GVector p1pointP(p1, pointP);
 	GVector vecXpointP = Operations::crossProduct(p1pointP, vec);
 	double magnitudeVecXP = Operations::magnitude(vecXpointP);
@@ -35,19 +35,19 @@ double Operations::distanceVectorToPoint(GVector vec, Dot pointP)
 
 double Operations::magnitude(GVector other)
 {
-	return sqrt(other.x * other.x + other.y * other.y + other.z * other.z);
+	return sqrt(other.X() * other.X() + other.Y() * other.Y() + other.Z() * other.Z());
 }
 
 double Operations::dotProduct(GVector vector1, GVector vector2)
 {
-	return vector1.x * vector2.x + vector1.y * vector2.y + vector1.z * vector2.z;
+	return vector1.X() * vector2.X() + vector1.Y() * vector2.Y() + vector1.Z() * vector2.Z();
 }
 
 GVector Operations::crossProduct(GVector vec, Dot pointP)
 {
-	double resX = vec.y * pointP.Z() - vec.z * pointP.Y();
-	double resY = vec.z * pointP.X() - vec.x * pointP.Z();
-	double resZ = vec.x * pointP.Y() - vec.y * pointP.X();
+	double resX = vec.Y() * pointP.Z() - vec.Z() * pointP.Y();
+	double resY = vec.Z() * pointP.X() - vec.X() * pointP.Z();
+	double resZ = vec.X() * pointP.Y() - vec.Y() * pointP.X();
 
 	Dot res(resX, resY, resZ);
 	Dot d(0.0, 0.0, 0.0);
@@ -57,9 +57,9 @@ GVector Operations::crossProduct(GVector vec, Dot pointP)
 
 GVector Operations::crossProduct(GVector vector1, GVector vector2)
 {
-	double resX = vector1.y * vector2.z - vector1.z * vector2.y;
-	double resY = vector1.z * vector2.x - vector1.x * vector2.z;
-	double resZ = vector1.x * vector2.y - vector1.y * vector2.x;
+	double resX = vector1.Y() * vector2.Z() - vector1.Z() * vector2.Y();
+	double resY = vector1.Z() * vector2.X() - vector1.X() * vector2.Z();
+	double resZ = vector1.X() * vector2.Y() - vector1.Y() * vector2.X();
 
 	Dot res(resX, resY, resZ);
 	Dot d(0.0, 0.0, 0.0);

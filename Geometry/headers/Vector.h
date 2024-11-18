@@ -6,11 +6,21 @@ using namespace std;
 namespace Geometry {
 	class GVector
 	{
+		Dot a;
+		Dot b;
+		double mX;
+		double mY;
+		double mZ;
 	public:
-		Dot a, b;
-		double x, y, z;
-
+		GVector();
 		GVector(Dot a, Dot b);
 		~GVector();
+
+		double X();
+		double Y();
+		double Z();
+
+		Dot A;
+		Dot B;
 	};
 }
