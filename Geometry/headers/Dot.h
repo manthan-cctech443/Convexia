@@ -9,7 +9,6 @@ namespace Geometry
 		double mY;
 		double mZ;
 
-		bool operator<(const Dot& other) const;
 
 	public:
 		Dot();
@@ -20,6 +19,7 @@ namespace Geometry
 		double Y();
 		double Z();
 
+		bool operator<(const Dot& other) const;
 		bool operator==(const Dot& other)const;
 	};
 }

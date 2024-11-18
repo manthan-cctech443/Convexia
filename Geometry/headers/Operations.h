@@ -2,7 +2,6 @@
 #include "Dot.h"
 #include"Face.h"
 #include "Vector.h"
-#include<vector>
 using namespace std;
 
 namespace Geometry 
