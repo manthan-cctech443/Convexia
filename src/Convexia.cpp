@@ -45,7 +45,7 @@ void Convexia::onLoadClick()
             PointCloudSet.insert(d);
         }
         vector<Dot>PointCloud(PointCloudSet.begin(), PointCloudSet.end());
-        vector<Face> output = quickHull(PointCloud);
+        vector<Face> output = QuickHull::quickHull(PointCloud);
         OpenGlWidget::Data data1;
         for (Face f : output) {
             data1.vertices.push_back(static_cast<GLfloat>(f.D1().X()));
@@ -58,12 +58,12 @@ void Convexia::onLoadClick()
             data1.vertices.push_back(static_cast<GLfloat>(f.D3().Y()));
             data1.vertices.push_back(static_cast<GLfloat>(f.D3().Z()));
 
-            GVector nor = getNormal(f.D1(), f.D2(), f.D3());
+            GVector nor = Operations::getNormal(f.D1(), f.D2(), f.D3());
 
             for (int i = 0;i < 3;i++) {
-                data1.normals.push_back(static_cast<GLfloat>(nor.x));
-                data1.normals.push_back(static_cast<GLfloat>(nor.y));
-                data1.normals.push_back(static_cast<GLfloat>(nor.z));
+                data1.normals.push_back(static_cast<GLfloat>(nor.X()));
+                data1.normals.push_back(static_cast<GLfloat>(nor.Y()));
+                data1.normals.push_back(static_cast<GLfloat>(nor.Z()));
             }
         }
         openglWidgetOutput->setData(data1);
@@ -111,22 +111,22 @@ OpenGlWidget::Data Convexia::convertTrianglulationToGraphicsObject(const Triangu
 {
     OpenGlWidget::Data data;
     int count = 1;
-    for (Triangle triangle : inTriangulation.Triangles)
+    for (Triangle triangle : inTriangulation.triangles)
     {
         for (Point point : triangle.Points())
         {
-            data.vertices.push_back(inTriangulation.UniqueNumbers[point.X()]);
-            data.vertices.push_back(inTriangulation.UniqueNumbers[point.Y()]);
-            data.vertices.push_back(inTriangulation.UniqueNumbers[point.Z()]);
+            data.vertices.push_back(inTriangulation.uniqueNumbers[point.X()]);
+            data.vertices.push_back(inTriangulation.uniqueNumbers[point.Y()]);
+            data.vertices.push_back(inTriangulation.uniqueNumbers[point.Z()]);
         }
 
         Point normal = triangle.Normal();
 
         for (size_t i = 0; i < 3; i++)
         {
-            data.normals.push_back(inTriangulation.UniqueNumbers[normal.X()]);
-            data.normals.push_back(inTriangulation.UniqueNumbers[normal.Y()]);
-            data.normals.push_back(inTriangulation.UniqueNumbers[normal.Z()]);
+            data.normals.push_back(inTriangulation.uniqueNumbers[normal.X()]);
+            data.normals.push_back(inTriangulation.uniqueNumbers[normal.Y()]);
+            data.normals.push_back(inTriangulation.uniqueNumbers[normal.Z()]);
         }
         progressbar->setValue(count);
         count++;
@@ -142,13 +142,13 @@ Triangulation Convexia::readFile(const QString& filePath)
     {
         STLReader reader;
         reader.read(filePath.toStdString(), triangulation);
-        progressbar->setRange(0, triangulation.Triangles.size());
+        progressbar->setRange(0, triangulation.triangles.size());
     }
     else if (filePath.endsWith(".obj", Qt::CaseInsensitive))
     {
         OBJReader reader;
         reader.read(filePath.toStdString(), triangulation);
-        progressbar->setRange(0, triangulation.Triangles.size());
+        progressbar->setRange(0, triangulation.triangles.size());
     }
 
     return triangulation;

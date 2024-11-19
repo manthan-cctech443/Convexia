@@ -60,9 +60,9 @@ void OBJReader::read(const std::string& fileName, Triangulation& triangulation)
                     auto pair = uniqueMap.find(xyz[i]);
                     if (pair == uniqueMap.end())
                     {
-                        triangulation.UniqueNumbers.push_back(xyz[i]);
-                        uniqueMap[xyz[i]] = triangulation.UniqueNumbers.size() - 1;
-                        pt[i] = triangulation.UniqueNumbers.size() - 1;
+                        triangulation.uniqueNumbers.push_back(xyz[i]);
+                        uniqueMap[xyz[i]] = triangulation.uniqueNumbers.size() - 1;
+                        pt[i] = triangulation.uniqueNumbers.size() - 1;
 
                     }
                     else
@@ -88,9 +88,9 @@ void OBJReader::read(const std::string& fileName, Triangulation& triangulation)
                     auto pair = uniqueMap.find(normalXYZ[i]);
                     if (pair == uniqueMap.end())
                     {
-                        triangulation.UniqueNumbers.push_back(normalXYZ[i]);
-                        uniqueMap[normalXYZ[i]] = triangulation.UniqueNumbers.size() - 1;
-                        pt[i] = triangulation.UniqueNumbers.size() - 1;
+                        triangulation.uniqueNumbers.push_back(normalXYZ[i]);
+                        uniqueMap[normalXYZ[i]] = triangulation.uniqueNumbers.size() - 1;
+                        pt[i] = triangulation.uniqueNumbers.size() - 1;
 
                     }
                     else
@@ -118,7 +118,7 @@ void OBJReader::read(const std::string& fileName, Triangulation& triangulation)
                     Point v1 = vertices[firstVertexId];
                 Point v2 = vertices[secondVertexId];
                 Point v3 = vertices[thirdVertexId];
-                triangulation.Triangles.push_back(Triangle(normals[normalId], vertices[firstVertexId], vertices[secondVertexId], vertices[thirdVertexId]));
+                triangulation.triangles.push_back(Triangle(normals[normalId], vertices[firstVertexId], vertices[secondVertexId], vertices[thirdVertexId]));
             }
         }
     }

@@ -10,7 +10,7 @@ namespace Geometry
         Triangulation();
         ~Triangulation();
 
-        vector<double> UniqueNumbers;
-        vector<Triangle> Triangles;
+        vector<double> uniqueNumbers;
+        vector<Triangle> triangles;
     };
 }

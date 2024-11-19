@@ -12,7 +12,7 @@ map<Point, int> NormalMap;
 void ObjWriter::Write(const string& filename, const Triangulation& triangulation)
 {
     ofstream outfile(filename);
-    for (auto triangle : triangulation.Triangles)
+    for (auto triangle : triangulation.triangles)
     {
         findAndAddPoint(triangle.P1(), uniqueVerticesList, VerticeMap);
         findAndAddPoint(triangle.P2(), uniqueVerticesList, VerticeMap);
@@ -32,7 +32,7 @@ void ObjWriter::Write(const string& filename, const Triangulation& triangulation
             outfile << fixed << setprecision(6)
                 << formulateVertexNormal(triangulation, normals);
         }
-        for (Triangle tri : triangulation.Triangles)
+        for (Triangle tri : triangulation.triangles)
         {
             outfile << formulateFace(tri) << endl;
         }
@@ -52,18 +52,18 @@ void ObjWriter::findAndAddPoint(Point point, vector<Point>& pointList, map<Point
 
 string ObjWriter::formulateVertex(Triangulation triangulation, Point point)
 {
-    double x = triangulation.UniqueNumbers[point.X()];
-    double y = triangulation.UniqueNumbers[point.Y()];
-    double z = triangulation.UniqueNumbers[point.Z()];
+    double x = triangulation.uniqueNumbers[point.X()];
+    double y = triangulation.uniqueNumbers[point.Y()];
+    double z = triangulation.uniqueNumbers[point.Z()];
 
     return "v " + to_string(x) + " " + to_string(y) + " " + to_string(z) + "\n";
 }
 
 string ObjWriter::formulateVertexNormal(Triangulation triangulation, Point point)
 {
-    double x = triangulation.UniqueNumbers[point.X()];
-    double y = triangulation.UniqueNumbers[point.Y()];
-    double z = triangulation.UniqueNumbers[point.Z()];
+    double x = triangulation.uniqueNumbers[point.X()];
+    double y = triangulation.uniqueNumbers[point.Y()];
+    double z = triangulation.uniqueNumbers[point.Z()];
 
     return "vn " + to_string(x) + " " + to_string(y) + " " + to_string(z) + "\n";
 }

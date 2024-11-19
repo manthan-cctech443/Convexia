@@ -46,9 +46,9 @@ void STLReader::read(const std::string& fileName, Triangulation& triangulation)
                         auto pair = uniqueValueMap.find(xyz[i]);
                         if (pair == uniqueValueMap.end())
                         {
-                            triangulation.UniqueNumbers.push_back(xyz[i]);
-                            uniqueValueMap[xyz[i]] = triangulation.UniqueNumbers.size() - 1;
-                            pointIndices.push_back(triangulation.UniqueNumbers.size() - 1);
+                            triangulation.uniqueNumbers.push_back(xyz[i]);
+                            uniqueValueMap[xyz[i]] = triangulation.uniqueNumbers.size() - 1;
+                            pointIndices.push_back(triangulation.uniqueNumbers.size() - 1);
                         }
                         else
                         {
@@ -64,7 +64,7 @@ void STLReader::read(const std::string& fileName, Triangulation& triangulation)
                     Point p2 = Point(pointIndices[6], pointIndices[7], pointIndices[8]);
                     Point p3 = Point(pointIndices[9], pointIndices[10], pointIndices[11]);
                     Triangle t(normal, p1, p2, p3);
-                    triangulation.Triangles.push_back(t);
+                    triangulation.triangles.push_back(t);
                     pointIndices.clear();
                 }
             }

@@ -1,24 +1,35 @@
 #pragma once
-#include <set>
-#include<vector>
+#include <vector>
 #include <tuple>
 #include "Face.h"
 #include "Dot.h"
+
 using namespace std;
 using namespace Geometry;
 
 namespace Algorithm
 {
-	vector<Face> quickHull(vector<Dot> points);
+	class QuickHull
+	{
 
-	void generateFace(Face f, Dot pointP, vector<Dot>& points, vector<Face>& partOfHull);
+	public:
+		QuickHull();
+		~QuickHull();
 
-	tuple<int, Dot> farthestPointFromPlanePositive(Face f, vector<Dot> points);
-	tuple<int, Dot> farthestPointFromPlaneNegative(Face f, vector<Dot> points);
+		static vector<Face> quickHull(vector<Dot> points);
 
-	extern vector<Face> partOfHull;
-	extern vector<Face> ConvexHullFinal;
-	extern Dot centroid;
+	private:
 
-	void quickHullRecursive(vector<Dot>& points, vector<Face>& partOfHull, Dot& centroid);
+		static vector<Face> partOfHull;
+		static vector<Face> convexHullFinal;
+		static Dot centroid;
+
+		static void generatenewFace(Face f, Dot pointP, vector<Dot>& points, vector<Face>& partOfHull, Dot& centroid);
+
+		static tuple<int, Dot> farthestPointFromPlanePositive(Face f, vector<Dot> points);
+		static tuple<int, Dot> farthestPointFromPlaneNegative(Face f, vector<Dot> points);
+
+		static void quickHullRecursive(vector<Dot>& points, vector<Face>& partOfHull, Dot& centroid);
+
+	};
 }
