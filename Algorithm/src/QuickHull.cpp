@@ -165,46 +165,7 @@ vector<Face> Algorithm::QuickHull::quickHull(vector<Dot> points)
 }
 
 
-void Algorithm::QuickHull::generatenewFace(Face f, Dot pointP, vector<Dot>& points, vector<Face>& partOfHull, Dot& centroid)
-{
-	vector<Face> visibleFaces;
-	for (Face f : partOfHull)
-	{
-		double dis = Operations::distancePointToPlane(f, centroid);
-		double d = Operations::distancePointToPlane(f, pointP);
-		if (d * dis < 0)
-		{
-			visibleFaces.push_back(f);
-		}
-	}
-	for (Face f : visibleFaces)
-	{
-		Face f1(f.D1(), f.D2(), pointP);
-		Face f2(f.D2(), f.D3(), pointP);
-		Face f3(f.D3(), f.D1(), pointP);
 
-		partOfHull.push_back(f1);
-		partOfHull.push_back(f2);
-		partOfHull.push_back(f3);
-
-		partOfHull.erase(remove(partOfHull.begin(), partOfHull.end(), f), partOfHull.end());
-	}
-	if (visibleFaces.size() > 1)
-	{
-		for (int i = 0; i < partOfHull.size() - 1; i++)
-		{
-			for (int j = i + 1; j < partOfHull.size(); j++)
-			{
-				if (partOfHull[i] == partOfHull[j])
-				{
-					partOfHull.erase(remove(partOfHull.begin(), partOfHull.end(), partOfHull[i]), partOfHull.end());
-					break;
-				}
-			}
-		}
-	}
-	points.erase(remove(points.begin(), points.end(), pointP), points.end());
-}
 
 tuple<int, Dot> Algorithm::QuickHull::farthestPointFromPlanePositive(Face f, vector<Dot> points)
 {
@@ -249,6 +210,49 @@ tuple<int, Dot> Algorithm::QuickHull::farthestPointFromPlaneNegative(Face f, vec
 	{
 		return { 0, p };
 	}
+}
+
+void Algorithm::QuickHull::generatenewFace(Face f, Dot pointP, vector<Dot>& points, vector<Face>& partOfHull, Dot& centroid)
+{
+	vector<Face> visibleFaces;
+	for (Face f : partOfHull)
+	{
+		double dis = Operations::distancePointToPlane(f, centroid);
+		double d = Operations::distancePointToPlane(f, pointP);
+		if (d * dis < 0)
+		{
+			visibleFaces.push_back(f);
+		}
+	}
+	for (Face f : visibleFaces)
+	{
+		Face f1(f.D1(), f.D2(), pointP);
+		Face f2(f.D2(), f.D3(), pointP);
+		Face f3(f.D3(), f.D1(), pointP);
+
+		partOfHull.push_back(f1);
+		partOfHull.push_back(f2);
+		partOfHull.push_back(f3);
+
+		partOfHull.erase(remove(partOfHull.begin(), partOfHull.end(), f), partOfHull.end());
+	}
+	if (visibleFaces.size() > 1)
+	{
+		for (int i = 0; i < partOfHull.size() - 1; i++)
+		{
+			for (int j = i + 1; j < partOfHull.size(); j++)
+			{
+				if (partOfHull[i] == partOfHull[j] )
+				{
+					Face fw = partOfHull[i]; 
+					size_t len = partOfHull.size();
+					partOfHull.erase(remove(partOfHull.begin(), partOfHull.end(), fw), partOfHull.end());
+					break;
+				}
+			}
+		}
+	}
+	points.erase(remove(points.begin(), points.end(), pointP), points.end());
 }
 
 void Algorithm::QuickHull::quickHullRecursive(vector<Dot>& points, vector<Face>& partOfHull, Dot& centroid)

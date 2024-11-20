@@ -27,9 +27,12 @@ Dot Geometry::Face::D3()
 
 bool Geometry::Face::operator==(const Face& other) const
 {
-	return this->d1 == other.d1 &&
-		this->d2 == other.d2 &&
-		this->d3 == other.d3;
+	return (this->d1 == other.d1 && this->d2 == other.d2 && this->d3 == other.d3) ||
+		(this->d1 == other.d1 && this->d2 == other.d3 && this->d3 == other.d2) || 
+		(this->d1 == other.d2 && this->d2 == other.d3 && this->d3 == other.d1) || 
+		(this->d1 == other.d2 && this->d2 == other.d1 && this->d3 == other.d3) || 
+		(this->d1 == other.d3 && this->d2 == other.d1 && this->d3 == other.d2) || 
+		(this->d1 == other.d3 && this->d2 == other.d2 && this->d3 == other.d1);
 }
 
 vector<Dot> Geometry::Face::Dots()

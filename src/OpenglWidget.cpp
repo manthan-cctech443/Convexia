@@ -3,9 +3,12 @@
 #include <QDataStream>
 #include <QDebug>
 
+
+
 OpenGlWidget::OpenGlWidget(QWidget* parent)
     : QOpenGLWidget(parent),
     vbo(QOpenGLBuffer::VertexBuffer),
+    isWireframe(true),  // Default to wireframe mode
     isInitialized(false)
 {
 }
@@ -110,6 +113,13 @@ void OpenGlWidget::paintGL()
         QVector3D lightPos(0.5f, 0.5f, 1.0f);
         shaderProgram.setUniformValue("lightPos", lightPos);
         shaderProgram.setUniformValue("viewPos", QVector3D(0.0f, 0.0f, 5.0f));
+
+        if (isWireframe) {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);  // Wireframe mode
+        }
+        else {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);  // Filled mode
+        }
 
         vbo.bind();
         glDrawArrays(GL_TRIANGLES, 0, data.vertices.size());

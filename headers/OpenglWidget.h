@@ -58,4 +58,5 @@ private:
 
     Data data;
     bool isInitialized;
+    bool isWireframe;
 };

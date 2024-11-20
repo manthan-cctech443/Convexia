@@ -35,8 +35,8 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>5.12.12_msvc2017_64</QtInstall>
-    <QtModules>core;opengl;gui;widgets</QtModules>
+    <QtInstall>6.8.0</QtInstall>
+    <QtModules>core;gui;widgets;opengl;openglwidgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
@@ -68,7 +68,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(OutputPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Geometry.lib;Algorithm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Geometry.lib;Algorithm.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
