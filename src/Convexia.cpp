@@ -21,7 +21,6 @@ Convexia::Convexia(QWidget* parent) : QMainWindow(parent)
     setupUi();
 
     connect(loadFile, &QPushButton::clicked, this, &Convexia::onLoadClick);
-    connect(exportFile, &QPushButton::clicked, this, &Convexia::onExportClick);
 }
 
 Convexia::~Convexia()
@@ -30,12 +29,14 @@ Convexia::~Convexia()
 
 void Convexia::onLoadClick()
 {
+    customStatusBar->showMessage("Select a file .");
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Files (*.stl *.obj)"));
 
     if (!fileName.isEmpty())
     {
         inputFilePath = fileName;
         triangulation = readFile(inputFilePath);
+        customStatusBar->showMessage("Loading file and Generating Convex Hull !.");
         OpenGlWidget::Data data = convertTrianglulationToGraphicsObject(triangulation);
         openglWidgetInput->setData(data);
         set<Dot> PointCloudSet;
@@ -47,6 +48,7 @@ void Convexia::onLoadClick()
         vector<Dot>PointCloud(PointCloudSet.begin(), PointCloudSet.end());
         vector<Face> output = QuickHull::quickHull(PointCloud);
         OpenGlWidget::Data data1;
+
         for (Face f : output) {
             data1.vertices.push_back(static_cast<GLfloat>(f.D1().X()));
             data1.vertices.push_back(static_cast<GLfloat>(f.D1().Y()));
@@ -67,23 +69,15 @@ void Convexia::onLoadClick()
             }
         }
         openglWidgetOutput->setData(data1);
+        customStatusBar->showMessage("Convex Hull Generated!.");
     }
 
 }
 
-void Convexia::onExportClick()
-{
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", inputFilePath.endsWith(".stl", Qt::CaseInsensitive) ? tr("files (*.obj)") : tr("files (*.stl)"));
-    if (!fileName.isEmpty())
-    {
-        writeFile(fileName, outputTriangulation);
-    }
-}
 
 void Convexia::setupUi()
 {
     loadFile = new QPushButton("Load File", this);
-    exportFile = new QPushButton("Export", this);
     openglWidgetInput = new OpenGlWidget(this);
     openglWidgetOutput = new OpenGlWidget(this);
     progressbar = new QProgressBar(this);
@@ -93,8 +87,7 @@ void Convexia::setupUi()
     QGridLayout* layout = new QGridLayout(this);
 
     layout->addWidget(loadFile, 0, 0);
-    layout->addWidget(progressbar, 0, 1, 1, 2);
-    layout->addWidget(exportFile, 0, 3);
+    layout->addWidget(progressbar, 0, 1, 1, 4);
     layout->addWidget(openglWidgetInput, 1,0,1,2);
     layout->addWidget(openglWidgetOutput, 1,2,1,2);
     layout->addWidget(customStatusBar, 2,0);
@@ -154,16 +147,3 @@ Triangulation Convexia::readFile(const QString& filePath)
     return triangulation;
 }
 
-void Convexia::writeFile(const QString& filePath, const Triangulation& triangulation)
-{
-    if (filePath.endsWith(".stl", Qt::CaseInsensitive))
-    {
-        STLWriter writer;
-        writer.Write(filePath.toStdString(), triangulation);
-    }
-    else if (filePath.endsWith(".obj", Qt::CaseInsensitive))
-    {
-        ObjWriter writer;
-        writer.Write(filePath.toStdString(), triangulation);
-    }
-}

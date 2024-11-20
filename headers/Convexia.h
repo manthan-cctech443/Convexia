@@ -20,21 +20,18 @@ public:
 
 private slots:
     void onLoadClick();
-    void onExportClick();
 
 
 private:
     void setupUi();
     OpenGlWidget::Data convertTrianglulationToGraphicsObject(const Triangulation& inTriangulation);
     Triangulation readFile(const QString& filePath);
-    void writeFile(const QString& filePath, const Triangulation& triangulation);
 
 private:
     Triangulation triangulation;
     Triangulation outputTriangulation;
 
     QPushButton* loadFile;
-    QPushButton* exportFile;
 
     QStatusBar* customStatusBar;
 
