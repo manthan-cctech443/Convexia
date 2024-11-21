@@ -1,5 +1,5 @@
 #include "Operations.h"
-#include "Dot.h"
+#include <cmath>
 
 using namespace Geometry;
 

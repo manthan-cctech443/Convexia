@@ -1,7 +1,5 @@
 #pragma once
 #include "Dot.h"
-#include "GVector.h"
-#include <vector>
 
 using namespace std;
 

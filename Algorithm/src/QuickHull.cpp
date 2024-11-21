@@ -1,7 +1,6 @@
 ﻿#include "QuickHull.h"
 #include "Operations.h"
 #include "GVector.h"
-#include "Face.h"
 #include <set>
 
 using namespace Algorithm;

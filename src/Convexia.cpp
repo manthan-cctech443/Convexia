@@ -1,9 +1,6 @@
 #include "Convexia.h"
-#include "Triangulation.h"
 #include "STLReader.h"
-#include "STLWriter.h"
 #include "OBJReader.h"
-#include "OBJWriter.h"
 #include "QuickHull.h"
 #include "Operations.h"
 #include <iostream>
@@ -42,7 +39,7 @@ void Convexia::onLoadClick()
         QuickHull quickhull;
         vector<Face> output = quickhull.quickHull(convertGraphicsObjectToPoints(data));
         
-        openglWidgetOutput->setData(convertPointsToGraphicsObject(output));
+        openglWidgetOutput->setData(convertFacesToGraphicsObject(output));
         customStatusBar->showMessage("Convex Hull Generated!.");
     }
 
@@ -113,7 +110,7 @@ vector<Dot> Convexia::convertGraphicsObjectToPoints(const OpenGlWidget::Data& da
     return  PointCloud;
 }
 
-OpenGlWidget::Data Convexia::convertPointsToGraphicsObject(const vector<Face> hull)
+OpenGlWidget::Data Convexia::convertFacesToGraphicsObject(const vector<Face> hull)
 {
     OpenGlWidget::Data data1;
 

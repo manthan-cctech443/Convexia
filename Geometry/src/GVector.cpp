@@ -1,4 +1,5 @@
 #include "GVector.h"
+
 using namespace Geometry;
 
 Geometry::GVector::GVector()

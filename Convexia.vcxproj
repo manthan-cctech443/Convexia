@@ -102,24 +102,18 @@
     <QtMoc Include="headers\Convexia.h" />
     <QtMoc Include="headers\GraphicsSynchronizer.h" />
     <ClInclude Include="headers\OBJReader.h" />
-    <ClInclude Include="headers\OBJWriter.h" />
     <QtMoc Include="headers\OpenglWidget.h" />
     <ClInclude Include="headers\Reader.h" />
     <ClInclude Include="headers\STLReader.h" />
-    <ClInclude Include="headers\STLWriter.h" />
-    <ClInclude Include="headers\Writer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Convexia.cpp" />
     <ClCompile Include="src\GraphicsSynchronizer.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\OBJReader.cpp" />
-    <ClCompile Include="src\OBJWriter.cpp" />
     <ClCompile Include="src\OpenglWidget.cpp" />
     <ClCompile Include="src\Reader.cpp" />
     <ClCompile Include="src\STLReader.cpp" />
-    <ClCompile Include="src\STLWriter.cpp" />
-    <ClCompile Include="src\Writer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
