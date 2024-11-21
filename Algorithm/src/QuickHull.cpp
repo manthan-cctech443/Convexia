@@ -122,6 +122,7 @@ vector<Face> Algorithm::QuickHull::quickHull(vector<Dot> points)
 	}
 
 	Face f1(p1, p2, p3);
+	vector<Face> partOfHull;
 	partOfHull.push_back(f1);
 
 	//Find the farthest point from the face.
@@ -156,7 +157,9 @@ vector<Face> Algorithm::QuickHull::quickHull(vector<Dot> points)
 	points.erase(remove(points.begin(), points.end(), p3), points.end());
 	points.erase(remove(points.begin(), points.end(), p4), points.end());
 
-	quickHullRecursive(points, partOfHull, centroid);
+	vector<Face> convexHullFinal;
+
+	quickHullRecursive(points, partOfHull, convexHullFinal ,centroid );
 
 	return convexHullFinal;
 }
@@ -252,7 +255,7 @@ void Algorithm::QuickHull::generatenewFace(Face f, Dot pointP, vector<Dot>& poin
 	points.erase(remove(points.begin(), points.end(), pointP), points.end());
 }
 
-void Algorithm::QuickHull::quickHullRecursive(vector<Dot>& points, vector<Face>& partOfHull, Dot& centroid)
+void Algorithm::QuickHull::quickHullRecursive(vector<Dot>& points, vector<Face>& partOfHull, vector<Face>& convexHullFinal, Dot& centroid)
 {
 	while (partOfHull.size() != 0)
 	{

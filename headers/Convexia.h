@@ -35,8 +35,6 @@ private:
     Triangulation triangulation;
     Triangulation outputTriangulation;
 
-    OpenGlWidget::Data data;
-
     QPushButton* loadFile;
 
     QStatusBar* customStatusBar;
