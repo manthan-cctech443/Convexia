@@ -1,6 +1,6 @@
 #pragma once
 #include "Dot.h"
-#include "Vector.h"
+#include "GVector.h"
 #include <vector>
 
 using namespace std;
@@ -9,12 +9,9 @@ namespace Geometry
 {
     class Face
     {
-    private:
-        Dot d1;
-        Dot d2;
-        Dot d3;
 
     public:
+
         Face(Dot d1, Dot d2, Dot d3);
         ~Face();
 
@@ -23,6 +20,11 @@ namespace Geometry
         Dot D3();
 
         bool operator==(const Face& other) const;  
-        vector<Dot> Dots();
+
+    private:
+
+        Dot d1;
+        Dot d2;
+        Dot d3;
     };
 }

@@ -27,7 +27,7 @@
     <ClInclude Include="headers\Triangulation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Vector.h">
+    <ClInclude Include="headers\GVector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\Operations.h">
@@ -47,7 +47,7 @@
     <ClCompile Include="src\Triangulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vector.cpp">
+    <ClCompile Include="src\GVector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Face.cpp">

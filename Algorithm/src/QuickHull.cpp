@@ -1,6 +1,6 @@
 ﻿#include "QuickHull.h"
 #include "Operations.h"
-#include "Vector.h"
+#include "GVector.h"
 #include "Face.h"
 #include <set>
 
@@ -13,9 +13,6 @@ Algorithm::QuickHull::QuickHull()
 Algorithm::QuickHull::~QuickHull()
 {
 }
-
-std::vector<Face> Algorithm::QuickHull::partOfHull;
-std::vector<Face> Algorithm::QuickHull::convexHullFinal;
 
 vector<Face> Algorithm::QuickHull::quickHull(vector<Dot> points)
 {

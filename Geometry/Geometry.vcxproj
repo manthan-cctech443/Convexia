@@ -25,7 +25,7 @@
     <ClInclude Include="headers\Point.h" />
     <ClInclude Include="headers\Triangle.h" />
     <ClInclude Include="headers\Triangulation.h" />
-    <ClInclude Include="headers\Vector.h" />
+    <ClInclude Include="headers\GVector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Dot.cpp" />
@@ -34,7 +34,7 @@
     <ClCompile Include="src\Point.cpp" />
     <ClCompile Include="src\Triangle.cpp" />
     <ClCompile Include="src\Triangulation.cpp" />
-    <ClCompile Include="src\Vector.cpp" />
+    <ClCompile Include="src\GVector.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

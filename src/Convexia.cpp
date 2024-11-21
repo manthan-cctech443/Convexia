@@ -1,5 +1,4 @@
 #include "Convexia.h"
-#include "Dot.h"
 #include "Triangulation.h"
 #include "STLReader.h"
 #include "STLWriter.h"
@@ -39,36 +38,11 @@ void Convexia::onLoadClick()
         customStatusBar->showMessage("Loading file and Generating Convex Hull !.");
         OpenGlWidget::Data data = convertTrianglulationToGraphicsObject(triangulation);
         openglWidgetInput->setData(data);
-        set<Dot> PointCloudSet;
-        for (int i = 0; i < data.vertices.size(); i = i + 3) {
-            Dot d(static_cast<double>(data.vertices[i]), static_cast<double>(data.vertices[i + 1]), static_cast<double>(data.vertices[i + 2]));
 
-            PointCloudSet.insert(d);
-        }
-        vector<Dot>PointCloud(PointCloudSet.begin(), PointCloudSet.end());
-        vector<Face> output = QuickHull::quickHull(PointCloud);
-        OpenGlWidget::Data data1;
-
-        for (Face f : output) {
-            data1.vertices.push_back(static_cast<GLfloat>(f.D1().X()));
-            data1.vertices.push_back(static_cast<GLfloat>(f.D1().Y()));
-            data1.vertices.push_back(static_cast<GLfloat>(f.D1().Z()));
-            data1.vertices.push_back(static_cast<GLfloat>(f.D2().X()));
-            data1.vertices.push_back(static_cast<GLfloat>(f.D2().Y()));
-            data1.vertices.push_back(static_cast<GLfloat>(f.D2().Z()));
-            data1.vertices.push_back(static_cast<GLfloat>(f.D3().X()));
-            data1.vertices.push_back(static_cast<GLfloat>(f.D3().Y()));
-            data1.vertices.push_back(static_cast<GLfloat>(f.D3().Z()));
-
-            GVector nor = Operations::getNormal(f.D1(), f.D2(), f.D3());
-
-            for (int i = 0;i < 3;i++) {
-                data1.normals.push_back(static_cast<GLfloat>(nor.X()));
-                data1.normals.push_back(static_cast<GLfloat>(nor.Y()));
-                data1.normals.push_back(static_cast<GLfloat>(nor.Z()));
-            }
-        }
-        openglWidgetOutput->setData(data1);
+        QuickHull quickhull;
+        vector<Face> output = quickhull.quickHull(convertGraphicsObjectToPoints(data));
+        
+        openglWidgetOutput->setData(convertPointsToGraphicsObject(output));
         customStatusBar->showMessage("Convex Hull Generated!.");
     }
 
@@ -126,6 +100,46 @@ OpenGlWidget::Data Convexia::convertTrianglulationToGraphicsObject(const Triangu
     }
     return data;
 }
+
+vector<Dot> Convexia::convertGraphicsObjectToPoints(const OpenGlWidget::Data& data)
+{
+    set<Dot> PointCloudSet;
+    for (int i = 0; i < data.vertices.size(); i = i + 3) {
+        Dot d(static_cast<double>(data.vertices[i]), static_cast<double>(data.vertices[i + 1]), static_cast<double>(data.vertices[i + 2]));
+
+        PointCloudSet.insert(d);
+    }
+    vector<Dot>PointCloud(PointCloudSet.begin(), PointCloudSet.end());
+    return  PointCloud;
+}
+
+OpenGlWidget::Data Convexia::convertPointsToGraphicsObject(const vector<Face> hull)
+{
+    OpenGlWidget::Data data1;
+
+    for (Face f : hull) {
+        data1.vertices.push_back(static_cast<GLfloat>(f.D1().X()));
+        data1.vertices.push_back(static_cast<GLfloat>(f.D1().Y()));
+        data1.vertices.push_back(static_cast<GLfloat>(f.D1().Z()));
+        data1.vertices.push_back(static_cast<GLfloat>(f.D2().X()));
+        data1.vertices.push_back(static_cast<GLfloat>(f.D2().Y()));
+        data1.vertices.push_back(static_cast<GLfloat>(f.D2().Z()));
+        data1.vertices.push_back(static_cast<GLfloat>(f.D3().X()));
+        data1.vertices.push_back(static_cast<GLfloat>(f.D3().Y()));
+        data1.vertices.push_back(static_cast<GLfloat>(f.D3().Z()));
+
+        GVector nor = Operations::getNormal(f.D1(), f.D2(), f.D3());
+
+        for (int i = 0; i < 3; i++) {
+            data1.normals.push_back(static_cast<GLfloat>(nor.X()));
+            data1.normals.push_back(static_cast<GLfloat>(nor.Y()));
+            data1.normals.push_back(static_cast<GLfloat>(nor.Z()));
+        }
+    }
+
+    return data1;
+}
+
 
 
 Triangulation Convexia::readFile(const QString& filePath)

@@ -1,5 +1,6 @@
 #include "Operations.h"
 #include "Dot.h"
+
 using namespace Geometry;
 
 Operations::Operations()
@@ -33,26 +34,14 @@ double Operations::distanceVectorToPoint(GVector vec, Dot pointP)
 	return distanceLineToPoint;
 }
 
-double Operations::magnitude(GVector other)
+double Operations::magnitude(GVector self)
 {
-	return sqrt(other.X() * other.X() + other.Y() * other.Y() + other.Z() * other.Z());
+	return sqrt(self.X() * self.X() + self.Y() * self.Y() + self.Z() * self.Z());
 }
 
 double Operations::dotProduct(GVector vector1, GVector vector2)
 {
 	return vector1.X() * vector2.X() + vector1.Y() * vector2.Y() + vector1.Z() * vector2.Z();
-}
-
-GVector Operations::crossProduct(GVector vec, Dot pointP)
-{
-	double resX = vec.Y() * pointP.Z() - vec.Z() * pointP.Y();
-	double resY = vec.Z() * pointP.X() - vec.X() * pointP.Z();
-	double resZ = vec.X() * pointP.Y() - vec.Y() * pointP.X();
-
-	Dot res(resX, resY, resZ);
-	Dot d(0.0, 0.0, 0.0);
-
-	return GVector(d, res);
 }
 
 GVector Operations::crossProduct(GVector vector1, GVector vector2)

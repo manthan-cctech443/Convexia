@@ -4,6 +4,8 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTextEdit>
 #include <QProgressBar>
+#include "Dot.h"
+#include "Face.h"
 #include "Triangulation.h"
 #include "OpenGlWidget.h"
 #include "GraphicsSynchronizer.h"
@@ -25,11 +27,15 @@ private slots:
 private:
     void setupUi();
     OpenGlWidget::Data convertTrianglulationToGraphicsObject(const Triangulation& inTriangulation);
+    vector<Dot>  convertGraphicsObjectToPoints(const  OpenGlWidget::Data& data);
+    OpenGlWidget::Data convertPointsToGraphicsObject(const vector<Face> hull);
     Triangulation readFile(const QString& filePath);
 
 private:
     Triangulation triangulation;
     Triangulation outputTriangulation;
+
+    OpenGlWidget::Data data;
 
     QPushButton* loadFile;
 

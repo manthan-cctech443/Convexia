@@ -3,6 +3,7 @@
 using namespace Geometry;
 
 Geometry::Dot::Dot()
+	:mX(0), mY(0), mZ(0)
 {
 }
 
@@ -32,9 +33,9 @@ double Dot::Z()
 
 bool Geometry::Dot::operator==(const Dot& other) const
 {
-	return this->mX == other.mX &&
-		this->mY == other.mY &&
-		this->mZ == other.mZ;
+	return mX == other.mX &&
+		mY == other.mY &&
+		mZ == other.mZ;
 }
 
 bool Dot::operator<(const Dot& other) const

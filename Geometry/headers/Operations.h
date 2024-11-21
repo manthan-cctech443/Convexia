@@ -1,7 +1,7 @@
 #pragma once
 #include "Dot.h"
 #include"Face.h"
-#include "Vector.h"
+#include "GVector.h"
 using namespace std;
 
 namespace Geometry 
@@ -9,14 +9,14 @@ namespace Geometry
 	class Operations 
 	{
 	public:
+
 		Operations();
 		~Operations();
 
 		static double pointDistance(Dot point1,  Dot point2);
 		static double distanceVectorToPoint(GVector vec,  Dot pointP);
-		static double magnitude( GVector other);
+		static double magnitude( GVector self);
 		static double dotProduct(GVector vector1, GVector vector2);
-		static GVector crossProduct(GVector vec,  Dot pointP);
 		static GVector crossProduct(GVector vector1, GVector vector2);
 		static GVector getNormal(Dot a,  Dot b,  Dot c);
 		static double distancePointToPlane(Face f,  Dot pointP);

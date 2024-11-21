@@ -1,9 +1,10 @@
-#include "Vector.h"
+#include "GVector.h"
 using namespace Geometry;
 
 Geometry::GVector::GVector()
-{
-}
+	:mX(), mY(), mZ(), A(), B()
+	{
+	}
 
 Geometry::GVector::GVector(Dot a, Dot b)
 	:mX(b.X() - a.X()), mY(b.Y() - a.Y()), mZ(b.Z() - a.Z()), A(a), B(b)
