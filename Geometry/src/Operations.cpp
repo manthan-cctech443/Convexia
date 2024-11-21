@@ -11,7 +11,7 @@ Operations::~Operations()
 {
 }
 
-double Operations::pointDistance(Dot point1, Dot point2)
+double Operations::distancePointtoPoint(Dot point1, Dot point2)
 {
 	double dx = point1.X() - point2.X();
 	double dy = point1.Y() - point2.Y();
@@ -64,7 +64,7 @@ GVector Operations::getNormal(Dot a, Dot b, Dot c)
 	return normal;
 }
 
-double Operations::distancePointToPlane(Face f, Dot pointP)
+double Operations::signeddistancePointToPlane(Face f, Dot pointP)
 {
 	GVector normal = getNormal(f.D1(), f.D2(), f.D3());
 	GVector f1P(f.D1(), pointP);

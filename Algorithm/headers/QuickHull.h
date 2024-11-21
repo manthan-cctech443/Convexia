@@ -17,14 +17,14 @@ namespace Algorithm
 		QuickHull();
 		~QuickHull();
 
-		vector<Face> quickHull(vector<Dot> points);
+		vector<Face> implementquickHull(vector<Dot> points);
 
 	private:
 
-		void generatenewFace(Face f, Dot pointP, vector<Dot>& points, vector<Face>& partOfHull, Dot& centroid);
+		void generateNewFace(Face face, Dot pointP, vector<Dot>& points, vector<Face>& partOfHull, Dot& centroid);
 
-		tuple<int, Dot> farthestPointFromPlanePositive(Face f, vector<Dot> points);
-		tuple<int, Dot> farthestPointFromPlaneNegative(Face f, vector<Dot> points);
+		tuple<int, Dot> farthestPointFromPlanePositive(Face face, vector<Dot> points);
+		tuple<int, Dot> farthestPointFromPlaneNegative(Face face, vector<Dot> points);
 
 		void quickHullRecursive(vector<Dot>& points, vector<Face>& partOfHull, vector<Face>& convexHullFinal ,Dot& centroid);
 

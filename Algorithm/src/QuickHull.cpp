@@ -13,7 +13,7 @@ Algorithm::QuickHull::~QuickHull()
 {
 }
 
-vector<Face> Algorithm::QuickHull::quickHull(vector<Dot> points)
+vector<Face> Algorithm::QuickHull::implementquickHull(vector<Dot> points)
 {
 	set<Dot> extremePointset; // To store extreme points along all 3 axes.
 
@@ -95,9 +95,9 @@ vector<Face> Algorithm::QuickHull::quickHull(vector<Dot> points)
 		{
 			if (i != j)
 			{
-				if (Operations::pointDistance(extreme[i], extreme[j]) > maxDistance)
+				if (Operations::distancePointtoPoint(extreme[i], extreme[j]) > maxDistance)
 				{
-					maxDistance = Operations::pointDistance(extreme[i], extreme[j]);
+					maxDistance = Operations::distancePointtoPoint(extreme[i], extreme[j]);
 					p1 = extreme[i];
 					p2 = extreme[j];
 				}
@@ -130,9 +130,9 @@ vector<Face> Algorithm::QuickHull::quickHull(vector<Dot> points)
 	maxDistance = -1;
 	for (int i = 0; i < points.size(); i++)
 	{
-		if (abs(Operations::distancePointToPlane(f1, points[i])) > maxDistance)
+		if (abs(Operations::signeddistancePointToPlane(f1, points[i])) > maxDistance)
 		{
-			maxDistance = abs(Operations::distancePointToPlane(f1, points[i]));
+			maxDistance = abs(Operations::signeddistancePointToPlane(f1, points[i]));
 			p4 = points[i];
 		}
 	}
@@ -172,9 +172,9 @@ tuple<int, Dot> Algorithm::QuickHull::farthestPointFromPlanePositive(Face f, vec
 	double maxDistance = -1;
 	for (int i = 0; i < points.size(); i++)
 	{
-		if (Operations::distancePointToPlane(f, points[i]) > maxDistance)
+		if (Operations::signeddistancePointToPlane(f, points[i]) > maxDistance)
 		{
-			maxDistance = Operations::distancePointToPlane(f, points[i]);
+			maxDistance = Operations::signeddistancePointToPlane(f, points[i]);
 			p = points[i];
 		}
 	}
@@ -194,9 +194,9 @@ tuple<int, Dot> Algorithm::QuickHull::farthestPointFromPlaneNegative(Face f, vec
 	double maxDistance = 1;
 	for (int i = 0; i < points.size(); i++)
 	{
-		if (Operations::distancePointToPlane(f, points[i]) < maxDistance)
+		if (Operations::signeddistancePointToPlane(f, points[i]) < maxDistance)
 		{
-			maxDistance = Operations::distancePointToPlane(f, points[i]);
+			maxDistance = Operations::signeddistancePointToPlane(f, points[i]);
 			p = points[i];
 		}
 	}
@@ -211,13 +211,13 @@ tuple<int, Dot> Algorithm::QuickHull::farthestPointFromPlaneNegative(Face f, vec
 	}
 }
 
-void Algorithm::QuickHull::generatenewFace(Face f, Dot pointP, vector<Dot>& points, vector<Face>& partOfHull, Dot& centroid)
+void Algorithm::QuickHull::generateNewFace(Face f, Dot pointP, vector<Dot>& points, vector<Face>& partOfHull, Dot& centroid)
 {
 	vector<Face> visibleFaces;
 	for (Face f : partOfHull)
 	{
-		double dis = Operations::distancePointToPlane(f, centroid);
-		double d = Operations::distancePointToPlane(f, pointP);
+		double dis = Operations::signeddistancePointToPlane(f, centroid);
+		double d = Operations::signeddistancePointToPlane(f, pointP);
 		if (d * dis < 0)
 		{
 			visibleFaces.push_back(f);
@@ -258,7 +258,7 @@ void Algorithm::QuickHull::quickHullRecursive(vector<Dot>& points, vector<Face>&
 {
 	while (partOfHull.size() != 0)
 	{
-		double dis = Operations::distancePointToPlane(partOfHull[0], centroid);
+		double dis = Operations::signeddistancePointToPlane(partOfHull[0], centroid);
 		tuple<int, Dot> t;
 		if (dis > 0)
 		{
@@ -270,7 +270,7 @@ void Algorithm::QuickHull::quickHullRecursive(vector<Dot>& points, vector<Face>&
 		}
 		if (get<0>(t) == 1)
 		{
-			generatenewFace(partOfHull[0], get<1>(t), points, partOfHull, centroid);
+			generateNewFace(partOfHull[0], get<1>(t), points, partOfHull, centroid);
 		}
 		else
 		{

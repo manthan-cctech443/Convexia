@@ -37,7 +37,7 @@ void Convexia::onLoadClick()
         openglWidgetInput->setData(data);
 
         QuickHull quickhull;
-        vector<Face> output = quickhull.quickHull(convertGraphicsObjectToPoints(data));
+        vector<Face> output = quickhull.implementquickHull(convertGraphicsObjectToPoints(data));
         
         openglWidgetOutput->setData(convertFacesToGraphicsObject(output));
         customStatusBar->showMessage("Convex Hull Generated!.");
