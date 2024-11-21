@@ -87,9 +87,9 @@ void Convexia::setupUi()
     QGridLayout* layout = new QGridLayout(this);
 
     layout->addWidget(loadFile, 0, 0);
-    layout->addWidget(progressbar, 0, 1, 1, 4);
-    layout->addWidget(openglWidgetInput, 1,0,1,2);
-    layout->addWidget(openglWidgetOutput, 1,2,1,2);
+    layout->addWidget(progressbar, 0, 1);
+    layout->addWidget(openglWidgetInput, 1,0);
+    layout->addWidget(openglWidgetOutput, 1,1);
     layout->addWidget(customStatusBar, 2,0);
 
     QWidget* centralWidget = new QWidget(this);
