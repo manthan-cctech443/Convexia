@@ -2,7 +2,7 @@
 #include "STLReader.h"
 #include "OBJReader.h"
 #include "QuickHull.h"
-#include "Operations.h"
+#include "Face.h"
 #include <iostream>
 #include <set>
 #include <QFileDialog>
@@ -34,12 +34,11 @@ void Convexia::onLoadClick()
         triangulation = readFile(inputFilePath);
         customStatusBar->showMessage("Loading file and Generating Convex Hull !.");
         OpenGlWidget::Data data = convertTrianglulationToGraphicsObject(triangulation);
-        openglWidgetInput->setData(data);
+        openglWidgetInput->addObject(data);
 
         QuickHull quickhull;
         vector<Face> output = quickhull.implementquickHull(convertGraphicsObjectToPoints(data));
-        
-        openglWidgetOutput->setData(convertFacesToGraphicsObject(output));
+        openglWidgetOutput->addObject(convertFacesToGraphicsObject(output));
         customStatusBar->showMessage("Convex Hull Generated!.");
     }
 
@@ -59,9 +58,9 @@ void Convexia::setupUi()
 
     layout->addWidget(loadFile, 0, 0);
     layout->addWidget(progressbar, 0, 1);
-    layout->addWidget(openglWidgetInput, 1,0);
-    layout->addWidget(openglWidgetOutput, 1,1);
-    layout->addWidget(customStatusBar, 2,0);
+    layout->addWidget(openglWidgetInput, 1, 0);
+    layout->addWidget(openglWidgetOutput, 1, 1);
+    layout->addWidget(customStatusBar, 2, 0);
 
     QWidget* centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
@@ -77,24 +76,25 @@ OpenGlWidget::Data Convexia::convertTrianglulationToGraphicsObject(const Triangu
     int count = 1;
     for (Triangle triangle : inTriangulation.triangles)
     {
-        for (Point point : triangle.Points())
-        {
-            data.vertices.push_back(inTriangulation.uniqueNumbers[point.X()]);
-            data.vertices.push_back(inTriangulation.uniqueNumbers[point.Y()]);
-            data.vertices.push_back(inTriangulation.uniqueNumbers[point.Z()]);
-        }
-
+        vector<Point> pts = triangle.Points();
         Point normal = triangle.Normal();
-
-        for (size_t i = 0; i < 3; i++)
+        for (size_t i = 0; i < pts.size(); i++)
         {
+            data.vertices.push_back(inTriangulation.uniqueNumbers[pts[i].X()]);
+            data.vertices.push_back(inTriangulation.uniqueNumbers[pts[i].Y()]);
+            data.vertices.push_back(inTriangulation.uniqueNumbers[pts[i].Z()]);
             data.normals.push_back(inTriangulation.uniqueNumbers[normal.X()]);
             data.normals.push_back(inTriangulation.uniqueNumbers[normal.Y()]);
             data.normals.push_back(inTriangulation.uniqueNumbers[normal.Z()]);
+            data.colors.push_back(1.0);
+            data.colors.push_back(0.608);
+            data.colors.push_back(0.0);
         }
+
         progressbar->setValue(count);
         count++;
     }
+    data.drawStyle = OpenGlWidget::DrawStyle::TRIANGLES;
     return data;
 }
 
@@ -113,30 +113,21 @@ vector<Dot> Convexia::convertGraphicsObjectToPoints(const OpenGlWidget::Data& da
 OpenGlWidget::Data Convexia::convertFacesToGraphicsObject(const vector<Face> hull)
 {
     OpenGlWidget::Data data1;
-
-    for (Face f : hull) {
-        data1.vertices.push_back(static_cast<GLfloat>(f.D1().X()));
-        data1.vertices.push_back(static_cast<GLfloat>(f.D1().Y()));
-        data1.vertices.push_back(static_cast<GLfloat>(f.D1().Z()));
-        data1.vertices.push_back(static_cast<GLfloat>(f.D2().X()));
-        data1.vertices.push_back(static_cast<GLfloat>(f.D2().Y()));
-        data1.vertices.push_back(static_cast<GLfloat>(f.D2().Z()));
-        data1.vertices.push_back(static_cast<GLfloat>(f.D3().X()));
-        data1.vertices.push_back(static_cast<GLfloat>(f.D3().Y()));
-        data1.vertices.push_back(static_cast<GLfloat>(f.D3().Z()));
-
-        GVector nor = Operations::getNormal(f.D1(), f.D2(), f.D3());
-
-        for (int i = 0; i < 3; i++) {
-            data1.normals.push_back(static_cast<GLfloat>(nor.X()));
-            data1.normals.push_back(static_cast<GLfloat>(nor.Y()));
-            data1.normals.push_back(static_cast<GLfloat>(nor.Z()));
+    for (Face face : hull) {
+        vector<Dot> dts = face.Dots();
+        for (size_t i = 0; i < dts.size(); i++)
+        {
+            data1.vertices.push_back(static_cast<GLfloat>(dts[i].X()));
+            data1.vertices.push_back(static_cast<GLfloat>(dts[i].Y()));
+            data1.vertices.push_back(static_cast<GLfloat>(dts[i].Z()));
+            data1.colors.push_back(0.0);
+            data1.colors.push_back(0.0);
+            data1.colors.push_back(0.0);
         }
     }
-
+    data1.drawStyle = OpenGlWidget::DrawStyle::LINES;
     return data1;
 }
-
 
 
 Triangulation Convexia::readFile(const QString& filePath)
@@ -157,4 +148,3 @@ Triangulation Convexia::readFile(const QString& filePath)
 
     return triangulation;
 }
-

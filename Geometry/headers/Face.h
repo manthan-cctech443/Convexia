@@ -1,5 +1,6 @@
 #pragma once
 #include "Dot.h"
+#include<vector>
 
 using namespace std;
 
@@ -23,5 +24,6 @@ namespace Geometry
         Dot D3();
 
         bool operator==(const Face& other) const;  
+        vector<Dot> Dots();
     };
 }

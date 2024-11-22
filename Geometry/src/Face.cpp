@@ -26,6 +26,15 @@ Dot Geometry::Face::D3()
 	return d3;
 }
 
+vector<Dot> Face::Dots()
+{
+	std::vector<Dot> dots;
+	dots.push_back(d1);
+	dots.push_back(d2);
+	dots.push_back(d3);
+	return dots;
+}
+
 // Compares two faces for equality by checking all permutations of their sides.
 bool Geometry::Face::operator==(const Face& other) const
 {
