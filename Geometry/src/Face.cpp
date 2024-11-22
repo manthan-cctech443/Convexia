@@ -32,6 +32,7 @@ vector<Dot> Face::Dots()
 	dots.push_back(d1);
 	dots.push_back(d2);
 	dots.push_back(d3);
+	dots.push_back(d1);
 	return dots;
 }
 

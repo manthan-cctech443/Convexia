@@ -38,6 +38,8 @@ void Convexia::onLoadClick()
 
         QuickHull quickhull;
         vector<Face> output = quickhull.implementquickHull(convertGraphicsObjectToPoints(data));
+
+        openglWidgetInput->addObject(convertFacesToGraphicsObject(output));
         openglWidgetOutput->addObject(convertFacesToGraphicsObject(output));
         customStatusBar->showMessage("Convex Hull Generated!.");
     }
@@ -115,6 +117,7 @@ OpenGlWidget::Data Convexia::convertFacesToGraphicsObject(const vector<Face> hul
     OpenGlWidget::Data data1;
     for (Face face : hull) {
         vector<Dot> dts = face.Dots();
+
         for (size_t i = 0; i < dts.size(); i++)
         {
             data1.vertices.push_back(static_cast<GLfloat>(dts[i].X()));
