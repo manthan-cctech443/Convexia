@@ -13,7 +13,7 @@ namespace Geometry
 		Operations();
 		~Operations();
 
-		static double distancePointtoPoint(Dot point1,  Dot point2);
+		static double distancePointToPoint(Dot point1,  Dot point2);
 		static double distanceVectorToPoint(GVector vec,  Dot pointP);
 		static double magnitude( GVector self);
 		static double dotProduct(GVector vector1, GVector vector2);

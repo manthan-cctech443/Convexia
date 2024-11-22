@@ -95,9 +95,9 @@ vector<Face> Algorithm::QuickHull::implementquickHull(vector<Dot> points)
 		{
 			if (i != j)
 			{
-				if (Operations::distancePointtoPoint(extreme[i], extreme[j]) > maxDistance)
+				if (Operations::distancePointToPoint(extreme[i], extreme[j]) > maxDistance)
 				{
-					maxDistance = Operations::distancePointtoPoint(extreme[i], extreme[j]);
+					maxDistance = Operations::distancePointToPoint(extreme[i], extreme[j]);
 					p1 = extreme[i];
 					p2 = extreme[j];
 				}

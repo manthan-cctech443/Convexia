@@ -11,7 +11,7 @@ Operations::~Operations()
 {
 }
 
-double Operations::distancePointtoPoint(Dot point1, Dot point2)
+double Operations::distancePointToPoint(Dot point1, Dot point2)
 {
 	double dx = point1.X() - point2.X();
 	double dy = point1.Y() - point2.Y();
