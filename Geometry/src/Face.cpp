@@ -26,8 +26,7 @@ Dot Geometry::Face::D3()
 	return d3;
 }
 
-//COMMENT
-
+// Compares two faces for equality by checking all permutations of their sides.
 bool Geometry::Face::operator==(const Face& other) const
 {
 	return (d1 == other.d1 && d2 == other.d2 && d3 == other.d3) ||

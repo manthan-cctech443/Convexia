@@ -130,9 +130,9 @@ vector<Face> Algorithm::QuickHull::implementquickHull(vector<Dot> points)
 	maxDistance = -1;
 	for (int i = 0; i < points.size(); i++)
 	{
-		if (abs(Operations::signeddistancePointToPlane(f1, points[i])) > maxDistance)
+		if (abs(Operations::signedDistancePointToPlane(f1, points[i])) > maxDistance)
 		{
-			maxDistance = abs(Operations::signeddistancePointToPlane(f1, points[i]));
+			maxDistance = abs(Operations::signedDistancePointToPlane(f1, points[i]));
 			p4 = points[i];
 		}
 	}
@@ -172,9 +172,9 @@ tuple<int, Dot> Algorithm::QuickHull::farthestPointFromPlanePositive(Face f, vec
 	double maxDistance = -1;
 	for (int i = 0; i < points.size(); i++)
 	{
-		if (Operations::signeddistancePointToPlane(f, points[i]) > maxDistance)
+		if (Operations::signedDistancePointToPlane(f, points[i]) > maxDistance)
 		{
-			maxDistance = Operations::signeddistancePointToPlane(f, points[i]);
+			maxDistance = Operations::signedDistancePointToPlane(f, points[i]);
 			p = points[i];
 		}
 	}
@@ -194,9 +194,9 @@ tuple<int, Dot> Algorithm::QuickHull::farthestPointFromPlaneNegative(Face f, vec
 	double maxDistance = 1;
 	for (int i = 0; i < points.size(); i++)
 	{
-		if (Operations::signeddistancePointToPlane(f, points[i]) < maxDistance)
+		if (Operations::signedDistancePointToPlane(f, points[i]) < maxDistance)
 		{
-			maxDistance = Operations::signeddistancePointToPlane(f, points[i]);
+			maxDistance = Operations::signedDistancePointToPlane(f, points[i]);
 			p = points[i];
 		}
 	}
@@ -216,8 +216,8 @@ void Algorithm::QuickHull::generateNewFace(Face f, Dot pointP, vector<Dot>& poin
 	vector<Face> visibleFaces;
 	for (Face f : partOfHull)
 	{
-		double dis = Operations::signeddistancePointToPlane(f, centroid);
-		double d = Operations::signeddistancePointToPlane(f, pointP);
+		double dis = Operations::signedDistancePointToPlane(f, centroid);
+		double d = Operations::signedDistancePointToPlane(f, pointP);
 		if (d * dis < 0)
 		{
 			visibleFaces.push_back(f);
@@ -258,7 +258,7 @@ void Algorithm::QuickHull::quickHullRecursive(vector<Dot>& points, vector<Face>&
 {
 	while (partOfHull.size() != 0)
 	{
-		double dis = Operations::signeddistancePointToPlane(partOfHull[0], centroid);
+		double dis = Operations::signedDistancePointToPlane(partOfHull[0], centroid);
 		tuple<int, Dot> t;
 		if (dis > 0)
 		{

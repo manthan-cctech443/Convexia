@@ -60,20 +60,19 @@ GVector Operations::getNormal(Dot a, Dot b, Dot c)
 {
 	GVector ab(a, b);
 	GVector ac(a, c);
-	GVector normal = crossProduct(ab, ac);
-	return normal;
+
+	return crossProduct(ab, ac);
 }
 
-double Operations::signeddistancePointToPlane(Face f, Dot pointP)
+//sign indicates whether the point is in front of or behind the plane.
+double Operations::signedDistancePointToPlane(Face f, Dot pointP)
 {
 	GVector normal = getNormal(f.D1(), f.D2(), f.D3());
 	GVector f1P(f.D1(), pointP);
 
 	double normalDotf1P = dotProduct(normal, f1P);
 
-	double distance = (normalDotf1P) / magnitude(normal);
+	double signedDistance = (normalDotf1P) / magnitude(normal);
 
-	return distance;
+	return signedDistance;
 }
-
-

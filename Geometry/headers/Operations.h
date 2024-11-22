@@ -19,6 +19,6 @@ namespace Geometry
 		static double dotProduct(GVector vector1, GVector vector2);
 		static GVector crossProduct(GVector vector1, GVector vector2);
 		static GVector getNormal(Dot a,  Dot b,  Dot c);
-		static double signeddistancePointToPlane(Face f,  Dot pointP);
+		static double signedDistancePointToPlane(Face f,  Dot pointP);
 	};
 }
