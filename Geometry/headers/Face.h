@@ -7,6 +7,11 @@ namespace Geometry
 {
     class Face
     {
+    private:
+
+        Dot d1;
+        Dot d2;
+        Dot d3;
 
     public:
 
@@ -18,11 +23,5 @@ namespace Geometry
         Dot D3();
 
         bool operator==(const Face& other) const;  
-
-    private:
-
-        Dot d1;
-        Dot d2;
-        Dot d3;
     };
 }

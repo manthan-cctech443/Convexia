@@ -5,6 +5,8 @@ namespace Geometry
 
 	class Point
 	{
+	private:
+
 		int mX;
 		int mY;
 		int mZ;

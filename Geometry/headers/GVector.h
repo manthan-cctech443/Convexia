@@ -6,6 +6,11 @@ using namespace std;
 namespace Geometry {
 	class GVector
 	{
+	private:
+
+		double mX;
+		double mY;
+		double mZ;
 
 	public:
 
@@ -19,12 +24,5 @@ namespace Geometry {
 
 		Dot A;
 		Dot B;
-
-	private:
-
-		double mX;
-		double mY;
-		double mZ;
-
 	};
 }

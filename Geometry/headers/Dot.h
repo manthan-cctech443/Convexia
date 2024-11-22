@@ -5,6 +5,11 @@ namespace Geometry
 
 	class Dot
 	{
+	private:
+
+		double mX;
+		double mY;
+		double mZ;
 
 	public:
 
@@ -18,12 +23,5 @@ namespace Geometry
 
 		bool operator<(const Dot& other) const;
 		bool operator==(const Dot& other)const;
-
-	private :
-
-		double mX;
-		double mY;
-		double mZ;
-
 	};
 }
