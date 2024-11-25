@@ -59,7 +59,7 @@ void OpenGlWidget::initializeGL()
 {
     initializeOpenGLFunctions();
     glEnable(GL_DEPTH_TEST);
-    glLineWidth(1.1f);
+    glLineWidth(1.0f);
     glEnable(GL_LINE_SMOOTH);  // Optional: Enables smoother lines
     glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
     glClearColor(0.176f, 0.416f, 0.686f, 1.0f);

@@ -5,22 +5,22 @@
 
 using namespace Algorithm;
 
-Algorithm::QuickHull::QuickHull()
+QuickHull::QuickHull()
 {
 }
 
-Algorithm::QuickHull::~QuickHull()
+QuickHull::~QuickHull()
 {
 }
 
-vector<Face> Algorithm::QuickHull::implementquickHull(vector<Dot> points)
+vector<Face> QuickHull::implementQuickHull(vector<Dot> points)
 {
 	set<Dot> extremePointset; // To store extreme points along all 3 axes.
 
 	//Find extreme points X-axis.
 
-	double minC = INT_MAX;
-	double maxC = INT_MIN;
+	double minC = DBL_MAX;
+	double maxC = DBL_MIN;
 	for (int i = 0; i < points.size(); i++)
 	{
 		Dot dmin, dmax;
@@ -41,8 +41,8 @@ vector<Face> Algorithm::QuickHull::implementquickHull(vector<Dot> points)
 
 	//Find extreme points Y-axis.
 
-	minC = INT_MAX;
-	maxC = INT_MIN;
+	minC = DBL_MAX;
+	maxC = DBL_MIN;
 	for (int i = 0; i < points.size(); i++)
 	{
 		Dot dmin, dmax;
@@ -62,8 +62,8 @@ vector<Face> Algorithm::QuickHull::implementquickHull(vector<Dot> points)
 
 	//Find extreme points Z-axis.
 
-	minC = INT_MAX;
-	maxC = INT_MIN;
+	minC = DBL_MAX;
+	maxC = DBL_MIN;
 	for (int i = 0; i < points.size(); i++)
 	{
 		Dot dmin, dmax;
@@ -87,7 +87,7 @@ vector<Face> Algorithm::QuickHull::implementquickHull(vector<Dot> points)
 
 	//Find 2 farthest points among the extreme points.
 
-	double maxDistance = -1.0;
+	double maxDistance = 0.0;
 	Dot p1, p2;
 	for (int i = 0; i < extreme.size(); i++)
 	{
@@ -110,12 +110,12 @@ vector<Face> Algorithm::QuickHull::implementquickHull(vector<Dot> points)
 
 	//Find the farthest point from the line.
 
-	maxDistance = -1;
+	double maxDistance1 = 0.0;
 	for (int i = 0; i < extreme.size(); i++)
 	{
-		if (Operations::distanceVectorToPoint(p1p2, extreme[i]) > maxDistance)
+		if (Operations::distanceVectorToPoint(p1p2, extreme[i]) > maxDistance1)
 		{
-			maxDistance = Operations::distanceVectorToPoint(p1p2, extreme[i]);
+			maxDistance1 = Operations::distanceVectorToPoint(p1p2, extreme[i]);
 			p3 = extreme[i];
 		}
 	}
@@ -127,12 +127,12 @@ vector<Face> Algorithm::QuickHull::implementquickHull(vector<Dot> points)
 	//Find the farthest point from the face.
 
 	Dot p4;
-	maxDistance = -1;
+	double absMaxDistance = 0.0;
 	for (int i = 0; i < points.size(); i++)
 	{
-		if (abs(Operations::signedDistancePointToPlane(f1, points[i])) > maxDistance)
+		if (abs(Operations::signedDistancePointToPlane(f1, points[i])) > absMaxDistance)
 		{
-			maxDistance = abs(Operations::signedDistancePointToPlane(f1, points[i]));
+			absMaxDistance = abs(Operations::signedDistancePointToPlane(f1, points[i]));
 			p4 = points[i];
 		}
 	}
@@ -166,61 +166,61 @@ vector<Face> Algorithm::QuickHull::implementquickHull(vector<Dot> points)
 
 
 
-tuple<int, Dot> Algorithm::QuickHull::farthestPointFromPlanePositive(Face f, vector<Dot> points)
+tuple<int, Dot> QuickHull::farthestPointFromPlanePositive(Face face, vector<Dot>& points)
 {
-	Dot p;
+	Dot dot1;
 	double maxDistance = -1;
 	for (int i = 0; i < points.size(); i++)
 	{
-		if (Operations::signedDistancePointToPlane(f, points[i]) > maxDistance)
+		if (Operations::signedDistancePointToPlane(face, points[i]) > maxDistance)
 		{
-			maxDistance = Operations::signedDistancePointToPlane(f, points[i]);
-			p = points[i];
+			maxDistance = Operations::signedDistancePointToPlane(face, points[i]);
+			dot1 = points[i];
 		}
 	}
 	if (maxDistance > 0)
 	{
-		return { 1, p };
+		return { 1, dot1 };
 	}
 	else
 	{
-		return { 0, p };
+		return { 0, dot1 };
 	}
 }
 
-tuple<int, Dot> Algorithm::QuickHull::farthestPointFromPlaneNegative(Face f, vector<Dot> points)
+tuple<int, Dot> QuickHull::farthestPointFromPlaneNegative(Face face, vector<Dot>& points)
 {
-	Dot p;
+	Dot dot1;
 	double maxDistance = 1;
 	for (int i = 0; i < points.size(); i++)
 	{
-		if (Operations::signedDistancePointToPlane(f, points[i]) < maxDistance)
+		if (Operations::signedDistancePointToPlane(face, points[i]) < maxDistance)
 		{
-			maxDistance = Operations::signedDistancePointToPlane(f, points[i]);
-			p = points[i];
+			maxDistance = Operations::signedDistancePointToPlane(face, points[i]);
+			dot1 = points[i];
 		}
 	}
 
 	if (maxDistance < 0)
 	{
-		return { 1, p };
+		return { 1, dot1 };
 	}
 	else
 	{
-		return { 0, p };
+		return { 0, dot1 };
 	}
 }
 
-void Algorithm::QuickHull::generateNewFace(Face f, Dot pointP, vector<Dot>& points, vector<Face>& partOfHull, Dot& centroid)
+void QuickHull::generateNewFace(Face face, Dot pointP, vector<Dot>& points, vector<Face>& partOfHull, Dot& centroid)
 {
 	vector<Face> visibleFaces;
-	for (Face f : partOfHull)
+	for (Face face : partOfHull)
 	{
-		double dis = Operations::signedDistancePointToPlane(f, centroid);
-		double d = Operations::signedDistancePointToPlane(f, pointP);
-		if (d * dis < 0)
+		double signedDisCenToFace = Operations::signedDistancePointToPlane(face, centroid);
+		double signedDisPtToFace = Operations::signedDistancePointToPlane(face, pointP);
+		if (signedDisCenToFace * signedDisPtToFace < 0)
 		{
-			visibleFaces.push_back(f);
+			visibleFaces.push_back(face);
 		}
 	}
 	for (Face f : visibleFaces)
@@ -254,7 +254,7 @@ void Algorithm::QuickHull::generateNewFace(Face f, Dot pointP, vector<Dot>& poin
 	points.erase(remove(points.begin(), points.end(), pointP), points.end());
 }
 
-void Algorithm::QuickHull::quickHullRecursive(vector<Dot>& points, vector<Face>& partOfHull, vector<Face>& convexHullFinal, Dot& centroid)
+void QuickHull::quickHullRecursive(vector<Dot>& points, vector<Face>& partOfHull, vector<Face>& convexHullFinal, Dot& centroid)
 {
 	while (partOfHull.size() != 0)
 	{

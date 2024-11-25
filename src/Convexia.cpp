@@ -2,6 +2,7 @@
 #include "STLReader.h"
 #include "OBJReader.h"
 #include "QuickHull.h"
+#include "Operations.h"
 #include "Face.h"
 #include <iostream>
 #include <set>
@@ -37,7 +38,7 @@ void Convexia::onLoadClick()
         openglWidgetInput->addObject(data);
 
         QuickHull quickhull;
-        vector<Face> output = quickhull.implementquickHull(convertGraphicsObjectToPoints(data));
+        vector<Face> output = quickhull.implementQuickHull(convertGraphicsObjectToPoints(data));
 
         openglWidgetInput->addObject(convertFacesToGraphicsObject(output));
         openglWidgetOutput->addObject(convertFacesToGraphicsObject(output));
@@ -89,7 +90,6 @@ void Convexia::setupUi()
         "}"
     );
 
-
     QGridLayout* layout = new QGridLayout(this);
 
     layout->addWidget(loadFile, 0, 0);
@@ -103,7 +103,7 @@ void Convexia::setupUi()
     centralWidget->setLayout(layout);
     customStatusBar->setFixedHeight(30);
 
-    customStatusBar->showMessage("Welcome to CONVEXIA APP ! Load your file.");
+    customStatusBar->showMessage("Welcome to CONVEXIA  APP ! Load your file ....");
 }
 
 OpenGlWidget::Data Convexia::convertTrianglulationToGraphicsObject(const Triangulation& inTriangulation)
@@ -151,15 +151,21 @@ OpenGlWidget::Data Convexia::convertFacesToGraphicsObject(const vector<Face> hul
     OpenGlWidget::Data data1;
     for (Face face : hull) {
         vector<Dot> dts = face.Dots();
+        /*GVector normal = Operations::getNormal(face.D1(), face.D2(), face.D3() , );*/
 
         for (size_t i = 0; i < dts.size(); i++)
         {
             data1.vertices.push_back(static_cast<GLfloat>(dts[i].X()));
             data1.vertices.push_back(static_cast<GLfloat>(dts[i].Y()));
             data1.vertices.push_back(static_cast<GLfloat>(dts[i].Z()));
-            data1.colors.push_back(0.0);
-            data1.colors.push_back(0.0);
-            data1.colors.push_back(0.0);
+
+            //data1.normals.push_back(static_cast<GLfloat>(normal.X()));
+            //data1.normals.push_back(static_cast<GLfloat>(normal.Y()));
+            //data1.normals.push_back(static_cast<GLfloat>(normal.Z()));
+
+            data1.colors.push_back(1.0f);
+            data1.colors.push_back(0.0f);
+            data1.colors.push_back(0.0f);
         }
     }
     data1.drawStyle = OpenGlWidget::DrawStyle::LINES;
