@@ -15,12 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\QuickHull.h">
+    <ClInclude Include="headers\quickHull.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\QuickHull.cpp">
+    <ClCompile Include="src\quickHull.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

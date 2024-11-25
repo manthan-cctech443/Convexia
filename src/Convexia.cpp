@@ -1,12 +1,9 @@
 #include "Convexia.h"
-#include "Dot.h"
-#include "Triangulation.h"
 #include "STLReader.h"
-#include "STLWriter.h"
 #include "OBJReader.h"
-#include "OBJWriter.h"
 #include "QuickHull.h"
 #include "Operations.h"
+#include "Face.h"
 #include <iostream>
 #include <set>
 #include <QFileDialog>
@@ -21,7 +18,6 @@ Convexia::Convexia(QWidget* parent) : QMainWindow(parent)
     setupUi();
 
     connect(loadFile, &QPushButton::clicked, this, &Convexia::onLoadClick);
-    connect(exportFile, &QPushButton::clicked, this, &Convexia::onExportClick);
 }
 
 Convexia::~Convexia()
@@ -30,81 +26,84 @@ Convexia::~Convexia()
 
 void Convexia::onLoadClick()
 {
+    customStatusBar->showMessage("Select a file .");
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Files (*.stl *.obj)"));
 
     if (!fileName.isEmpty())
     {
         inputFilePath = fileName;
         triangulation = readFile(inputFilePath);
+        customStatusBar->showMessage("Loading file and Generating Convex Hull !.");
         OpenGlWidget::Data data = convertTrianglulationToGraphicsObject(triangulation);
-        openglWidgetInput->setData(data);
-        set<Dot> PointCloudSet;
-        for (int i = 0; i < data.vertices.size(); i = i + 3) {
-            Dot d(static_cast<double>(data.vertices[i]), static_cast<double>(data.vertices[i + 1]), static_cast<double>(data.vertices[i + 2]));
+        openglWidgetInput->addObject(data);
 
-            PointCloudSet.insert(d);
-        }
-        vector<Dot>PointCloud(PointCloudSet.begin(), PointCloudSet.end());
-        vector<Face> output = QuickHull::quickHull(PointCloud);
-        OpenGlWidget::Data data1;
-        for (Face f : output) {
-            data1.vertices.push_back(static_cast<GLfloat>(f.D1().X()));
-            data1.vertices.push_back(static_cast<GLfloat>(f.D1().Y()));
-            data1.vertices.push_back(static_cast<GLfloat>(f.D1().Z()));
-            data1.vertices.push_back(static_cast<GLfloat>(f.D2().X()));
-            data1.vertices.push_back(static_cast<GLfloat>(f.D2().Y()));
-            data1.vertices.push_back(static_cast<GLfloat>(f.D2().Z()));
-            data1.vertices.push_back(static_cast<GLfloat>(f.D3().X()));
-            data1.vertices.push_back(static_cast<GLfloat>(f.D3().Y()));
-            data1.vertices.push_back(static_cast<GLfloat>(f.D3().Z()));
+        QuickHull quickHull;
+        vector<Face> output = quickHull.implementQuickHull(convertGraphicsObjectToPoints(data));
 
-            GVector nor = Operations::getNormal(f.D1(), f.D2(), f.D3());
-
-            for (int i = 0;i < 3;i++) {
-                data1.normals.push_back(static_cast<GLfloat>(nor.X()));
-                data1.normals.push_back(static_cast<GLfloat>(nor.Y()));
-                data1.normals.push_back(static_cast<GLfloat>(nor.Z()));
-            }
-        }
-        openglWidgetOutput->setData(data1);
+        openglWidgetInput->addObject(convertFacesToGraphicsObject(output));
+        openglWidgetOutput->addObject(convertFacesToGraphicsObject(output));
+        customStatusBar->showMessage("Convex Hull Generated!.");
     }
 
 }
 
-void Convexia::onExportClick()
-{
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", inputFilePath.endsWith(".stl", Qt::CaseInsensitive) ? tr("files (*.obj)") : tr("files (*.stl)"));
-    if (!fileName.isEmpty())
-    {
-        writeFile(fileName, outputTriangulation);
-    }
-}
 
 void Convexia::setupUi()
 {
     loadFile = new QPushButton("Load File", this);
-    exportFile = new QPushButton("Export", this);
     openglWidgetInput = new OpenGlWidget(this);
     openglWidgetOutput = new OpenGlWidget(this);
     progressbar = new QProgressBar(this);
     customStatusBar = new QStatusBar(this);
     graphicsSynchronizer = new GraphicsSynchronizer(openglWidgetInput, openglWidgetOutput);
 
+    loadFile->setStyleSheet(
+        "QPushButton {"
+        "    background-color: rgb(24, 45, 118);"
+        "    color: white;"
+        "    border: 2px solid rgb(0, 0, 0);"
+        "    border-radius: 10px;" // Makes the corners rounded
+        "    padding: 5px;"
+        "    font: bold 14px 'Open Sanst';"
+        "}"
+        "QPushButton:hover {"
+        "    background-color: rgb(34, 65, 138);"
+        "}"
+    );
+
+    progressbar->setStyleSheet(
+        "QProgressBar {"
+        "    border: 2px solid black;"
+        "    border-radius: 10px;" // Rounded corners
+        "    text-align: center;"
+        "    background: lightgray;"
+        "}"
+        "QProgressBar::chunk {"
+        "    border-radius: 10px;" // Rounded corners for the progress chunk
+        "    background: rgb(17,160,23);"
+        "}"
+    );
+
+    customStatusBar->setStyleSheet(
+        "QStatusBar {"
+        "font: bold 14px 'Arial'; "
+        "}"
+    );
+
     QGridLayout* layout = new QGridLayout(this);
 
     layout->addWidget(loadFile, 0, 0);
-    layout->addWidget(progressbar, 0, 1, 1, 2);
-    layout->addWidget(exportFile, 0, 3);
-    layout->addWidget(openglWidgetInput, 1,0,1,2);
-    layout->addWidget(openglWidgetOutput, 1,2,1,2);
-    layout->addWidget(customStatusBar, 2,0);
+    layout->addWidget(progressbar, 0, 1);
+    layout->addWidget(openglWidgetInput, 1, 0);
+    layout->addWidget(openglWidgetOutput, 1, 1);
+    layout->addWidget(customStatusBar, 2, 0);
 
     QWidget* centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
     centralWidget->setLayout(layout);
     customStatusBar->setFixedHeight(30);
 
-    customStatusBar->showMessage("Welcome to CONVEXIA APP ! Load your file.");
+    customStatusBar->showMessage("Welcome to CONVEXIA  APP ! Load your file ....");
 }
 
 OpenGlWidget::Data Convexia::convertTrianglulationToGraphicsObject(const Triangulation& inTriangulation)
@@ -113,25 +112,58 @@ OpenGlWidget::Data Convexia::convertTrianglulationToGraphicsObject(const Triangu
     int count = 1;
     for (Triangle triangle : inTriangulation.triangles)
     {
-        for (Point point : triangle.Points())
-        {
-            data.vertices.push_back(inTriangulation.uniqueNumbers[point.X()]);
-            data.vertices.push_back(inTriangulation.uniqueNumbers[point.Y()]);
-            data.vertices.push_back(inTriangulation.uniqueNumbers[point.Z()]);
-        }
-
+        vector<Point> pts = triangle.Points();
         Point normal = triangle.Normal();
-
-        for (size_t i = 0; i < 3; i++)
+        for (size_t i = 0; i < pts.size(); i++)
         {
+            data.vertices.push_back(inTriangulation.uniqueNumbers[pts[i].X()]);
+            data.vertices.push_back(inTriangulation.uniqueNumbers[pts[i].Y()]);
+            data.vertices.push_back(inTriangulation.uniqueNumbers[pts[i].Z()]);
             data.normals.push_back(inTriangulation.uniqueNumbers[normal.X()]);
             data.normals.push_back(inTriangulation.uniqueNumbers[normal.Y()]);
             data.normals.push_back(inTriangulation.uniqueNumbers[normal.Z()]);
+            data.colors.push_back(1.0);
+            data.colors.push_back(0.608);
+            data.colors.push_back(0.0);
         }
+
         progressbar->setValue(count);
         count++;
     }
+    data.drawStyle = OpenGlWidget::DrawStyle::TRIANGLES;
     return data;
+}
+
+vector<Dot> Convexia::convertGraphicsObjectToPoints(const OpenGlWidget::Data& data)
+{
+    set<Dot> PointCloudSet;
+    for (int i = 0; i < data.vertices.size(); i = i + 3) {
+        Dot d(static_cast<double>(data.vertices[i]), static_cast<double>(data.vertices[i + 1]), static_cast<double>(data.vertices[i + 2]));
+
+        PointCloudSet.insert(d);
+    }
+    vector<Dot>PointCloud(PointCloudSet.begin(), PointCloudSet.end());
+    return  PointCloud;
+}
+
+OpenGlWidget::Data Convexia::convertFacesToGraphicsObject(const vector<Face> hull)
+{
+    OpenGlWidget::Data data1;
+    for (Face face : hull) {
+        vector<Dot> dts = face.Dots();
+
+        for (size_t i = 0; i < dts.size(); i++)
+        {
+            data1.vertices.push_back(static_cast<GLfloat>(dts[i].X()));
+            data1.vertices.push_back(static_cast<GLfloat>(dts[i].Y()));
+            data1.vertices.push_back(static_cast<GLfloat>(dts[i].Z()));
+            data1.colors.push_back(0.0f);
+            data1.colors.push_back(0.0f);
+            data1.colors.push_back(0.0f);
+        }
+    }
+    data1.drawStyle = OpenGlWidget::DrawStyle::LINES;
+    return data1;
 }
 
 
@@ -152,18 +184,4 @@ Triangulation Convexia::readFile(const QString& filePath)
     }
 
     return triangulation;
-}
-
-void Convexia::writeFile(const QString& filePath, const Triangulation& triangulation)
-{
-    if (filePath.endsWith(".stl", Qt::CaseInsensitive))
-    {
-        STLWriter writer;
-        writer.Write(filePath.toStdString(), triangulation);
-    }
-    else if (filePath.endsWith(".obj", Qt::CaseInsensitive))
-    {
-        ObjWriter writer;
-        writer.Write(filePath.toStdString(), triangulation);
-    }
 }

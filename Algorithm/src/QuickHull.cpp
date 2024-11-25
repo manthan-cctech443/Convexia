@@ -6,6 +6,7 @@
 
 using namespace Algorithm;
 
+
 Algorithm::QuickHull::QuickHull()
 {
 }
@@ -14,10 +15,7 @@ Algorithm::QuickHull::~QuickHull()
 {
 }
 
-std::vector<Face> Algorithm::QuickHull::partOfHull;
-std::vector<Face> Algorithm::QuickHull::convexHullFinal;
-
-vector<Face> Algorithm::QuickHull::quickHull(vector<Dot> points)
+vector<Face> QuickHull::implementQuickHull(vector<Dot> points)
 {
 	set<Dot> extremePointset; // To store extreme points along all 3 axes.
 
@@ -125,6 +123,9 @@ vector<Face> Algorithm::QuickHull::quickHull(vector<Dot> points)
 	}
 
 	Face f1(p1, p2, p3);
+
+	vector<Face> partOfHull;
+
 	partOfHull.push_back(f1);
 
 	//Find the farthest point from the face.
@@ -146,6 +147,8 @@ vector<Face> Algorithm::QuickHull::quickHull(vector<Dot> points)
 	Face f2(f1.D2(), f1.D3(), p4);
 	Face f3(f1.D3(), f1.D1(), p4);
 
+
+
 	partOfHull.push_back(f0);
 	partOfHull.push_back(f2);
 	partOfHull.push_back(f3);
@@ -159,7 +162,10 @@ vector<Face> Algorithm::QuickHull::quickHull(vector<Dot> points)
 	points.erase(remove(points.begin(), points.end(), p3), points.end());
 	points.erase(remove(points.begin(), points.end(), p4), points.end());
 
-	quickHullRecursive(points, partOfHull, centroid);
+
+	vector<Face> convexHullFinal;
+
+	quickHullRecursive(points, partOfHull, convexHullFinal, centroid);
 
 	return convexHullFinal;
 }
@@ -167,7 +173,7 @@ vector<Face> Algorithm::QuickHull::quickHull(vector<Dot> points)
 
 
 
-tuple<int, Dot> Algorithm::QuickHull::farthestPointFromPlanePositive(Face f, vector<Dot> points)
+tuple<int, Dot> Algorithm::QuickHull::farthestPointFromPlanePositive(Face f, vector<Dot>& points)
 {
 	Dot p;
 	double maxDistance = -1;
@@ -189,7 +195,7 @@ tuple<int, Dot> Algorithm::QuickHull::farthestPointFromPlanePositive(Face f, vec
 	}
 }
 
-tuple<int, Dot> Algorithm::QuickHull::farthestPointFromPlaneNegative(Face f, vector<Dot> points)
+tuple<int, Dot> Algorithm::QuickHull::farthestPointFromPlaneNegative(Face f, vector<Dot>& points)
 {
 	Dot p;
 	double maxDistance = 1;
@@ -255,7 +261,7 @@ void Algorithm::QuickHull::generatenewFace(Face f, Dot pointP, vector<Dot>& poin
 	points.erase(remove(points.begin(), points.end(), pointP), points.end());
 }
 
-void Algorithm::QuickHull::quickHullRecursive(vector<Dot>& points, vector<Face>& partOfHull, Dot& centroid)
+void Algorithm::QuickHull::quickHullRecursive(vector<Dot>& points, vector<Face>& partOfHull, vector<Face>& convexHullFinal, Dot& centroid)
 {
 	while (partOfHull.size() != 0)
 	{
