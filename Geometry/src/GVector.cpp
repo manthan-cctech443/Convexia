@@ -3,7 +3,7 @@
 using namespace Geometry;
 
 Geometry::GVector::GVector()
-	:mX(), mY(), mZ(), A(), B()
+	:mX(0), mY(0), mZ(0), A(), B()
 	{
 	}
 

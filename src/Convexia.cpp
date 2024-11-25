@@ -151,19 +151,13 @@ OpenGlWidget::Data Convexia::convertFacesToGraphicsObject(const vector<Face> hul
     OpenGlWidget::Data data1;
     for (Face face : hull) {
         vector<Dot> dts = face.Dots();
-        /*GVector normal = Operations::getNormal(face.D1(), face.D2(), face.D3() , );*/
 
         for (size_t i = 0; i < dts.size(); i++)
         {
             data1.vertices.push_back(static_cast<GLfloat>(dts[i].X()));
             data1.vertices.push_back(static_cast<GLfloat>(dts[i].Y()));
             data1.vertices.push_back(static_cast<GLfloat>(dts[i].Z()));
-
-            //data1.normals.push_back(static_cast<GLfloat>(normal.X()));
-            //data1.normals.push_back(static_cast<GLfloat>(normal.Y()));
-            //data1.normals.push_back(static_cast<GLfloat>(normal.Z()));
-
-            data1.colors.push_back(1.0f);
+            data1.colors.push_back(0.0f);
             data1.colors.push_back(0.0f);
             data1.colors.push_back(0.0f);
         }
