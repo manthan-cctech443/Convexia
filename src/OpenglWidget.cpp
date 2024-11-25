@@ -62,7 +62,7 @@ void OpenGlWidget::initializeGL()
     glLineWidth(1.1f);
     glEnable(GL_LINE_SMOOTH);  // Optional: Enables smoother lines
     glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-    glClearColor(0.42f, 0.608f, 0.769f, 1.0f);
+    glClearColor(0.176f, 0.416f, 0.686f, 1.0f);
     loadShaders();
 }
 

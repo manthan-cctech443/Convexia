@@ -56,6 +56,40 @@ void Convexia::setupUi()
     customStatusBar = new QStatusBar(this);
     graphicsSynchronizer = new GraphicsSynchronizer(openglWidgetInput, openglWidgetOutput);
 
+    loadFile->setStyleSheet(
+        "QPushButton {"
+        "    background-color: rgb(24, 45, 118);"
+        "    color: white;"
+        "    border: 2px solid rgb(0, 0, 0);"
+        "    border-radius: 10px;" // Makes the corners rounded
+        "    padding: 5px;"
+        "    font: bold 14px 'Open Sanst';"
+        "}"
+        "QPushButton:hover {"
+        "    background-color: rgb(34, 65, 138);"
+        "}"
+    );
+
+    progressbar->setStyleSheet(
+        "QProgressBar {"
+        "    border: 2px solid black;"
+        "    border-radius: 10px;" // Rounded corners
+        "    text-align: center;"
+        "    background: lightgray;"
+        "}"
+        "QProgressBar::chunk {"
+        "    border-radius: 10px;" // Rounded corners for the progress chunk
+        "    background: rgb(17,160,23);"
+        "}"
+    );
+
+    customStatusBar->setStyleSheet(
+        "QStatusBar {"
+        "font: bold 14px 'Arial'; "
+        "}"
+    );
+
+
     QGridLayout* layout = new QGridLayout(this);
 
     layout->addWidget(loadFile, 0, 0);
